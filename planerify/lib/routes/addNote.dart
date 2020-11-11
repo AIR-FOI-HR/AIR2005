@@ -14,7 +14,7 @@ class AddNote extends StatelessWidget {
     sadrzajController.clear();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text("Nova bilješka"),
       ),
       body:
       Column(
@@ -23,13 +23,17 @@ class AddNote extends StatelessWidget {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              hintText: 'Naziv'
+              hintText: 'Naziv',
+              contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              isDense: true,
           ),
             controller: nazivController,
         ),
           TextField(
             decoration: InputDecoration(
-                hintText: 'Sadržaj bilješke'
+                hintText: 'Sadržaj bilješke',
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                isDense: true,
             ),
              controller: sadrzajController,
         ),
@@ -40,7 +44,7 @@ class AddNote extends StatelessWidget {
         onPressed: () {
           addNewNote(context);
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.check),
         backgroundColor: Colors.lightBlue,
       ),
 

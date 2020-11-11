@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
+import 'package:planerify/routes/addNote.dart';
 import 'package:planerify/support/Constants.dart';
-
 
 TextEditingController nazivController = TextEditingController();
 TextEditingController sadrzajController = TextEditingController();
@@ -23,7 +23,7 @@ class EditNote extends StatelessWidget {
     sadrzajController.text = editingNote.sadrzajBiljeske;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Note"),
+        title: Text("Uređivanje"),
         actions: <Widget>[
           PopupMenuButton<String>(
              onSelected: choiceAction,
@@ -45,13 +45,18 @@ class EditNote extends StatelessWidget {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-                hintText: 'Naziv'
+                hintText: 'Naziv',
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                isDense: true,
             ),
             controller: nazivController,
           ),
           TextField(
             decoration: InputDecoration(
-                hintText: 'Sadržaj bilješke'
+                hintText: 'Sadržaj bilješke',
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                isDense: true,
+
             ),
             controller: sadrzajController,
           ),
@@ -60,8 +65,9 @@ class EditNote extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          _onPressed();
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.check),
         backgroundColor: Colors.lightBlue,
       ),
 
@@ -78,4 +84,16 @@ void choiceAction(String choice)
      });
     Navigator.pop(currentContext);
   }
+}
+
+void _onPressed() {
+  final firestoreInstance = FirebaseFirestore.instance;
+  firestoreInstance.collection("note-01").doc(existingNote.id).set(
+      {
+        "Sadržaj" : sadrzajController.text,
+        "Naziv" : nazivController.text,
+      },SetOptions(merge: true)).then((_){
+    print("success!");
+  });
+  Navigator.pop(currentContext);
 }
