@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
@@ -7,12 +8,17 @@ import 'package:planerify/support/Constants.dart';
 TextEditingController nazivController = TextEditingController();
 TextEditingController sadrzajController = TextEditingController();
 
+Note existingNote;
+BuildContext currentContext;
+
 
 class EditNote extends StatelessWidget {
   static const routeName = '/editNote';
   @override
   Widget build(BuildContext context) {
     Note editingNote = ModalRoute.of(context).settings.arguments;
+    existingNote = editingNote;
+    currentContext = context;
     nazivController.text = editingNote.nazivBiljeske;
     sadrzajController.text = editingNote.sadrzajBiljeske;
     return Scaffold(
@@ -65,5 +71,11 @@ class EditNote extends StatelessWidget {
 
 void choiceAction(String choice)
 {
-  print("Working");
+  if(choice == Constants.Delete){
+    final firestoreInstance = FirebaseFirestore.instance;
+    firestoreInstance.collection("note-01").doc(existingNote.id).delete().then((_) {
+      print("success!");
+     });
+    Navigator.pop(currentContext);
+  }
 }
