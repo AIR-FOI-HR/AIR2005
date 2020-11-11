@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:planerify/routes/addNote.dart';
 import 'package:flutter/material.dart';
+import 'package:planerify/routes/editNote.dart';
 
 import 'models/note.dart';
 
@@ -36,7 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Popis korisnika')),
+      appBar: AppBar(
+          title: Text('Notes')
+      ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -115,6 +118,7 @@ void _buildDialog(context, selectedObject)
       },
     );
 }
+
 
 
 

@@ -21,3 +21,4 @@ class Note{
   @override
   String toString() => "Record<$nazivBiljeske>";
 }
+
