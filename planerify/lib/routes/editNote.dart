@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
 import 'package:planerify/support/Constants.dart';
+import 'package:planerify/support/styles.dart';
 
 
 TextEditingController nazivController = TextEditingController();
@@ -23,7 +24,7 @@ class EditNote extends StatelessWidget {
     sadrzajController.text = editingNote.sadrzajBiljeske;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Note"),
+        title: Text("Izmjeni bilješku"),
         actions: <Widget>[
           PopupMenuButton<String>(
              onSelected: choiceAction,
@@ -38,7 +39,7 @@ class EditNote extends StatelessWidget {
           )
         ],
       ),
-      body:
+      /*body:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -57,11 +58,12 @@ class EditNote extends StatelessWidget {
           ),
 
         ],
-      ),
+      ),*/
+      body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.check),
         backgroundColor: Colors.lightBlue,
       ),
 
@@ -79,3 +81,44 @@ void choiceAction(String choice)
     Navigator.pop(currentContext);
   }
 }
+
+
+
+Widget _buildBody(BuildContext context) => DefaultTextStyle(
+  style: kNoteTextLargeLight,
+  child: WillPopScope(
+    child: Container(
+      height: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: SingleChildScrollView(
+        child: _buildNoteDetail(),
+      ),
+    ),
+  ),
+);
+
+Widget _buildNoteDetail() => Column(
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  children: <Widget>[
+    TextField(
+      controller: nazivController,
+      style: kNoteTitleLight,
+      decoration: const InputDecoration(
+        hintText: 'Naziv',
+        border: InputBorder.none,
+        counter: const SizedBox(),
+      ),
+      maxLines: null,
+      maxLength: 1024,
+      textCapitalization: TextCapitalization.sentences,
+    ),
+    const SizedBox(height: 14),
+    TextField(
+      controller: sadrzajController,
+      style: kNoteTextLargeLight,
+      decoration: const InputDecoration.collapsed(hintText: 'Naslov'),
+      maxLines: null,
+      textCapitalization: TextCapitalization.sentences,
+    ),
+  ],
+);

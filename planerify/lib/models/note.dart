@@ -22,3 +22,6 @@ class Note{
   String toString() => "Record<$nazivBiljeske>";
 }
 
+
+
+

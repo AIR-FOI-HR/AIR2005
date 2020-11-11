@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:planerify/models/note.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:planerify/support/styles.dart';
 
 
 TextEditingController nazivController = TextEditingController();
@@ -14,9 +15,9 @@ class AddNote extends StatelessWidget {
     sadrzajController.clear();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text("Dodaj bilješku"),
       ),
-      body:
+      /*body:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -35,12 +36,13 @@ class AddNote extends StatelessWidget {
         ),
 
         ],
-      ),
+      ),*/
+      body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           addNewNote(context);
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.check),
         backgroundColor: Colors.lightBlue,
       ),
 
@@ -61,4 +63,49 @@ addNewNote(BuildContext context) {
     Navigator.pop(context);
     nazivController.clear();
     sadrzajController.clear();
-  }
+}
+
+
+Widget _buildBody(BuildContext context) => DefaultTextStyle(
+  style: kNoteTextLargeLight,
+  child: WillPopScope(
+    child: Container(
+      height: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: SingleChildScrollView(
+        child: _buildNoteDetail(),
+      ),
+    ),
+  ),
+);
+
+Widget _buildNoteDetail() => Column(
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  children: <Widget>[
+    TextField(
+      controller: nazivController,
+      style: kNoteTitleLight,
+      decoration: const InputDecoration(
+        hintText: 'Naziv',
+        border: InputBorder.none,
+        counter: const SizedBox(),
+      ),
+      maxLines: null,
+      maxLength: 1024,
+      textCapitalization: TextCapitalization.sentences,
+    ),
+    const SizedBox(height: 14),
+    TextField(
+      controller: sadrzajController,
+      style: kNoteTextLargeLight,
+      decoration: const InputDecoration.collapsed(hintText: 'Sadržaj'),
+      maxLines: null,
+      textCapitalization: TextCapitalization.sentences,
+    ),
+  ],
+);
+
+
+
+
+
