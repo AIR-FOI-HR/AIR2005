@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "394692657552",
+    "firebase_url": "https://planerify-89b4a.firebaseio.com",
+    "project_id": "planerify-89b4a",
+    "storage_bucket": "planerify-89b4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394692657552:android:2cdd629eb9ea7579d47315",
+        "android_client_info": {
+          "package_name": "com.example.planerify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394692657552-h2nuunejbt0j4la5abp82guug06f3ipc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvWklvjFI20sHmS0RJf0lsaOZ_g7KjTI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394692657552-h2nuunejbt0j4la5abp82guug06f3ipc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

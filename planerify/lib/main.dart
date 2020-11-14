@@ -1,46 +1,129 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:planerify/routes/addNote.dart';
 import 'package:flutter/material.dart';
+import 'package:planerify/routes/editNote.dart';
 
-void main() {
+import 'models/note.dart';
+
+//void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 90),
-            child: AppBar(
-              flexibleSpace: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20),
-                        Text("Planerify",
-                            style: TextStyle(color: Colors.white,
-                                fontSize: 26)),
-                        Expanded(
-                            child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text("Bilješke",
-                                    style: TextStyle(color: Colors.white,
-                                        fontSize: 16))))
-                      ])),
-            )),
-        body: _buildBody(),
-        )
+      routes: {
+        EditNote.routeName: (context) => EditNote()
+    },
+      title: 'Bilješke',
+      home: MyHomePage(),
     );
   }
 }
 
-Widget _buildBody(){
-  return Center(
-    child: Text('Unesite bilješku')
-  );
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() {
+    return _MyHomePageState();
+  }
 }
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          title: Text('Bilješke')
+      ),
+      body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNote()),
+          );
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.lightBlue,
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('note-01').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return _buildList(context, snapshot.data.docs);
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final note = Note.fromSnapshot(data);
+    return Padding(
+      key: ValueKey(note.id),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(note.nazivBiljeske),
+          onTap: () => Navigator.pushNamed(context, EditNote.routeName, arguments: note)
+          )
+        ),
+      );
+  }
+}
+
+void _buildDialog(context, selectedObject)
+{
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text(""),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(selectedObject.id),
+      content: Text(selectedObject.nazivBiljeske),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+}
+
+
+
+
+
+
+
+
+
