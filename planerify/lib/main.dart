@@ -66,10 +66,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
-    );
+    if(snapshot.isNotEmpty)
+    {
+      return ListView(
+        padding: const EdgeInsets.only(top: 20.0),
+        children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+      );
+    }
+    else
+      {
+        return Center(
+          child: Text("Unesi bilješku")
+        );
+      }
+
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
@@ -90,35 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
       );
   }
 }
-
-void _buildDialog(context, selectedObject)
-{
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text(""),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(selectedObject.id),
-      content: Text(selectedObject.nazivBiljeske),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-}
-
 
 
 
