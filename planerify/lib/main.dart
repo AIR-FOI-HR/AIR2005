@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:planerify/login.dart';
 import 'package:planerify/routes/addNote.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/routes/editNote.dart';
@@ -16,13 +17,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return MaterialApp(
       routes: {
         EditNote.routeName: (context) => EditNote()
     },
       title: 'Bilješke',
-      home: MyHomePage(),
+      home: MyHomePage()
     );
   }
 }
