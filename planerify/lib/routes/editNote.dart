@@ -24,7 +24,6 @@ class EditNote extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Izmjeni bilješku"),
-        title: Text("Uređivanje"),
         actions: <Widget>[
           PopupMenuButton<String>(
              onSelected: choiceAction,
