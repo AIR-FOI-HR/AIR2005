@@ -5,7 +5,6 @@ import 'package:planerify/models/note.dart';
 import 'package:planerify/support/Constants.dart';
 import 'package:planerify/support/styles.dart';
 
-
 TextEditingController nazivController = TextEditingController();
 TextEditingController sadrzajController = TextEditingController();
 
@@ -25,6 +24,7 @@ class EditNote extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Izmjeni bilješku"),
+        title: Text("Uređivanje"),
         actions: <Widget>[
           PopupMenuButton<String>(
              onSelected: choiceAction,
@@ -62,6 +62,7 @@ class EditNote extends StatelessWidget {
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          _onPressed();
         },
         child: Icon(Icons.check),
         backgroundColor: Colors.lightBlue,
@@ -122,3 +123,16 @@ Widget _buildNoteDetail() => Column(
     ),
   ],
 );
+
+
+void _onPressed() {
+  final firestoreInstance = FirebaseFirestore.instance;
+  firestoreInstance.collection("note-01").doc(existingNote.id).set(
+      {
+        "Sadržaj" : sadrzajController.text,
+        "Naziv" : nazivController.text,
+      },SetOptions(merge: true)).then((_){
+    print("success!");
+  });
+  Navigator.pop(currentContext);
+}
