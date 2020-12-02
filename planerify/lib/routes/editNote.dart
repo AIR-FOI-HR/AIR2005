@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
-import 'package:planerify/support/Constants.dart';
+import 'package:planerify/support/constants.dart';
 import 'package:planerify/support/styles.dart';
 
 TextEditingController nazivController = TextEditingController();
