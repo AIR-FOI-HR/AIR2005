@@ -20,7 +20,7 @@ class CalendarScreen extends StatelessWidget {
     return MaterialApp(
       title: 'Table Calendar Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
       ),
       home: MyHomePage(title: 'Table Calendar Demo'),
     );
@@ -31,128 +31,73 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomepageState createState() => _MyHomepageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
-  List _selectedEvents;
-  AnimationController _animationController;
-  CalendarController _calendarController;
-
+class _MyHomepageState extends State<MyHomePage> {
+  CalendarController _controller;
   @override
   void initState() {
-    super.initState();
-    final _selectedDay = DateTime.now();
-
-    _events = {
-
-      _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-
-    };
-
-    _selectedEvents = _events[_selectedDay] ?? [];
-    _calendarController = CalendarController();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-
-    _animationController.forward();
+    // TODO: implement initState
+      super.initState();
+      _controller = CalendarController();
   }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _calendarController.dispose();
-    super.dispose();
-  }
-
-  void _onDaySelected(DateTime day, List events, List holidays) {
-    print('CALLBACK: _onDaySelected');
-    setState(() {
-      _selectedEvents = events;
-    });
-  }
-
-  void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
-  }
-
-  void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onCalendarCreated');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Planer"),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          // Switch out 2 lines below to play with TableCalendar's settings
-          //-----------------------
-          _buildTableCalendar(),
-          // _buildTableCalendarWithBuilders(),
-          const SizedBox(height: 8.0),
-          const SizedBox(height: 8.0),
-          Expanded(child: _buildEventList()),
-        ],
-      ),
-    );
-  }
-
-  // Simple TableCalendar configuration (using Styles)
-  Widget _buildTableCalendar() {
-    return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepOrange[400],
-        todayColor: Colors.deepOrange[200],
-        markersColor: Colors.brown[700],
-        outsideDaysVisible: false,
-      ),
-      headerStyle: HeaderStyle(
-        formatButtonTextStyle:
-        TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
-        formatButtonDecoration: BoxDecoration(
-          color: Colors.deepOrange[400],
-          borderRadius: BorderRadius.circular(16.0),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+              TableCalendar(
+                locale: 'en_US',
+                calendarStyle: CalendarStyle(
+                  todayColor: Colors.cyan,
+                  selectedColor: Colors.redAccent.shade200,
+                  todayStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                    color: Colors.white
+                  ),
+                ),
+                  headerStyle: HeaderStyle(
+                    centerHeaderTitle: true,
+                    formatButtonTextStyle: TextStyle(
+                      color: Colors.white
+                    ),
+                    formatButtonDecoration: BoxDecoration(
+                      color: Colors.cyan,
+                      borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    formatButtonShowsNext: false
+                  ),
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  onDaySelected: (day, events, holidays){
+                    print(day.toIso8601String());
+                  },
+                  builders: CalendarBuilders(
+                    selectedDayBuilder: (context, date, events) =>
+                        Container(
+                          alignment: Alignment.center,
+                            margin: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade300,
+                              shape: BoxShape.circle
+                            ),
+                            child:Text(date.day.toString(),
+                              style: TextStyle(
+                                color: Colors.white
+                              ),))
+                  ),
+                  calendarController: _controller)
+          ],
         ),
       ),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
-    );
-  }
-
-
-  Widget _buildEventList() {
-    return ListView(
-      children: _selectedEvents
-          .map((event) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.8),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        margin:
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(
-          title: Text(event.toString()),
-          onTap: () => print('$event tapped!'),
-        ),
-      ))
-          .toList(),
     );
   }
 }
+
