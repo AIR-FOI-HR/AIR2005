@@ -152,4 +152,7 @@ class _AddEventPageState extends State<AddEventPage> {
     _description.dispose();
     super.dispose();
   }
+
+
 }
+
