@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
-import 'package:planerify/routes/addNote.dart';
-import 'package:planerify/routes/editNote.dart';
+import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/addNote.dart';
+import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/editNote.dart';
 
 class Notes extends StatelessWidget {
   // This widget is the root of your application.
@@ -71,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return Center(
           child: Text("Unesi bilješku")
       );
+      
     }
 
   }

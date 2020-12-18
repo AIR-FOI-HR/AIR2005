@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:planerify/login.dart';
-import 'package:planerify/routes/addNote.dart';
+import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/addNote.dart';
 import 'package:flutter/material.dart';
-import 'package:planerify/routes/editNote.dart';
+import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/editNote.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:planerify/screens/notes.dart';
 
