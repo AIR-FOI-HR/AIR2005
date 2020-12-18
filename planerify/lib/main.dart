@@ -10,14 +10,11 @@ import 'package:planerify/screens/notes.dart';
 
 import 'models/note.dart';
 
-//void main() => runApp(MyApp());
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  //runApp(Notes());
   runApp(IconButtonApp());
 }
 
 
-
-//void main() => runApp(IconButtonApp());

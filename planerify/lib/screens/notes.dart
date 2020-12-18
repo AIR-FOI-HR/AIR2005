@@ -35,11 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddNote()),
-          );
+        onPressed: (){
+          _addNoteNavigator();
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.lightBlue,
@@ -51,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('note-01').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-
+        if (!snapshot.hasData)
+          return LinearProgressIndicator();
         return _buildList(context, snapshot.data.docs);
       },
     );
@@ -71,9 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return Center(
           child: Text("Unesi bilješku")
       );
-      
     }
-
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
@@ -91,6 +86,14 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () => Navigator.pushNamed(context, EditNote.routeName, arguments: note)
           )
       ),
+    );
+  }
+
+  _addNoteNavigator()
+  {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AddNote())
     );
   }
 }
