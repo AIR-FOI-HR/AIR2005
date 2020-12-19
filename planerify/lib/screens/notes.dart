@@ -6,7 +6,6 @@ import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/a
 import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/editNote.dart';
 
 class Notes extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context)  {
     return MaterialApp(
