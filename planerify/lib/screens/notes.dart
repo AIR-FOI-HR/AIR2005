@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
-import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/addNote.dart';
 import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/editNote.dart';
 
 class Notes extends StatelessWidget {
@@ -82,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           child: ListTile(
               title: Text(note.nazivBiljeske),
-              onTap: () => Navigator.pushNamed(context, EditNote.routeName, arguments: note)
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> EditNote(editingNote:note)))
           )
       ),
     );
@@ -92,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
   {
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AddNote())
+        MaterialPageRoute(builder: (context) => EditNote())
     );
   }
 }
