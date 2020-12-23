@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
-import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/editNote.dart';
 import 'package:planerify/support/widgetView.dart';
-
-
+import 'editNote.dart';
 
 class Notes extends StatefulWidget {
   @override
@@ -65,7 +63,6 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
       );
     }
   }
-
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final note = Note.fromSnapshot(data);

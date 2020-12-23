@@ -59,42 +59,18 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      home: CalendarPage(context),
-      routes: {
-        "add_event": (_) => AddEventPage(),
-      }
-      ,
+      home: _calendarPage(context),
     );
   }
 
-  Widget CalendarPage(BuildContext context) {
+  Widget _calendarPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Planer"),
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("events").snapshots(),
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-              List<EventModel> allEvents = [];
-              snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
-              if(allEvents.isNotEmpty){
-               state._events = state._groupEvents(allEvents);
-              }
-              else {
-                state._events = {};
-                state._selectedEvents = [];
-              }
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildTableCalendar(context),
-                Expanded(child: _buildEventList(context)),
-              ],
-
-            );
-          }
+          builder:_buildContent,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -107,6 +83,30 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     );
   }
 
+
+  Widget _buildContent(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)
+  {
+      if(snapshot.hasData){
+        List<EventModel> allEvents = [];
+        snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
+        if(allEvents.isNotEmpty){
+          state._events = state._groupEvents(allEvents);
+        }
+        else {
+          state._events = {};
+          state._selectedEvents = [];
+        }
+      }
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildTableCalendar(context),
+          Expanded(child: _buildEventList(context)),
+        ],
+
+      );
+
+  }
 
   Widget _buildEventList(BuildContext context) {
     return ListView(
@@ -156,6 +156,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         ),
       ),
       onDaySelected: (day, events, holidays){
+        // ignore: invalid_use_of_protected_member
         state.setState(() {
           state._selectedEvents = events;
         });
