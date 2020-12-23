@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
@@ -63,24 +64,25 @@ class _EditNoteController extends State<EditNote> {
 
   //logika
   void handleButtonPressed() {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    var user = _firebaseAuth.currentUser.uid;
     if(editingNote != null) {
-      final firestoreInstance = FirebaseFirestore.instance;
-      firestoreInstance.collection("note-01").doc(editingNote.id).set(
+
+      firestoreInstance.collection("notes").doc(editingNote.id).set(
           {
             "Sadržaj" : sadrzajController.text,
             "Naziv" : nazivController.text,
-          },SetOptions(merge: true)).then((_){
-        print("success!");
-      });
+            "user_id": user
+          },SetOptions(merge: true));
     }
     else{
-      final firestoreInstance = FirebaseFirestore.instance;
-      firestoreInstance.collection("note-01").add(
+      firestoreInstance.collection("notes").add(
           {
             "Naziv": nazivController.text,
-            "Sadržaj": sadrzajController.text
+            "Sadržaj": sadrzajController.text,
+            "user_id": user,
           }).then((value){
-        print(value.id);
       });
     }
     Navigator.pop(context);

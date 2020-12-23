@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/menuOption.dart';
 import 'package:planerify/support/menuList.dart';
@@ -9,6 +10,7 @@ import 'notes.dart';
 
 class IconButtonApp extends StatelessWidget {
   static const String _title = 'Planerify';
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,11 @@ class IconButtonApp extends StatelessWidget {
 }
 
 Widget _itemBuilder(BuildContext context, int index) {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   MenuOption menuOption = getInstance(index);
+  print(_firebaseAuth.currentUser.email);
+  print(_firebaseAuth.currentUser.uid);
   return  Card(
           child: InkWell(
           splashColor: Colors.black12,

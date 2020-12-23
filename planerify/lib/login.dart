@@ -1,5 +1,7 @@
 // Adapted from http://www.codeplayon.com/2020/02/simple-flutter-login-screen-ui-example/
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:planerify/screens/mainScreen.dart';
 
 
 
@@ -13,6 +15,7 @@ class _State extends State<LoginPage> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +56,17 @@ class _State extends State<LoginPage> {
                       textColor: Colors.white,
                       color: Colors.blue,
                       child: Text('Login'),
-                      onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
+                      onPressed: ()  {
+                        String email =nameController.text;
+                        String pass =passwordController.text;
+                         _firebaseAuth.signInWithEmailAndPassword(email: email, password: pass)
+                            .then((user) => {
+                           Navigator.push(
+                           context,
+                           MaterialPageRoute(builder: (context) => IconButtonApp())
+                           )
+                        })
+                       ;
                       },
                     )),
               ],

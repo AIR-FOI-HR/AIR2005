@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
@@ -36,10 +37,11 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
   }
 
   Widget _buildBody(BuildContext context) {
-
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    var user = _firebaseAuth.currentUser.uid;
     //database
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('note-01').snapshots(),
+      stream: FirebaseFirestore.instance.collection('notes').where("user_id", isEqualTo: user).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return LinearProgressIndicator();
