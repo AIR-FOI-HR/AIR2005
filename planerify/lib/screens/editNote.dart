@@ -72,7 +72,6 @@ class _EditNoteController extends State<EditNote> {
           },SetOptions(merge: true)).then((_){
         print("success!");
       });
-
     }
     else{
       final firestoreInstance = FirebaseFirestore.instance;

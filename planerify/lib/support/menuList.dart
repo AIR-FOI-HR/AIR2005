@@ -15,6 +15,6 @@ InitializeList()
 {
 
   listOfCards.add(new MenuOption("Bilješke", Icons.note, Notes()));
-  listOfCards.add(new MenuOption("Kalendar", Icons.calendar_today_outlined, CalendarScreen()));
+  listOfCards.add(new MenuOption("Kalendar", Icons.calendar_today_outlined, Calendar()));
 }
 

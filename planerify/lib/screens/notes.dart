@@ -3,28 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
 import 'file:///C:/Users/Patrik/Documents/GitHub/AIR2005/planerify/lib/screens/editNote.dart';
+import 'package:planerify/support/widgetView.dart';
 
-class Notes extends StatelessWidget {
+
+
+class Notes extends StatefulWidget {
   @override
-  Widget build(BuildContext context)  {
-    return MaterialApp(
-        routes: {
-          EditNote.routeName: (context) => EditNote()
-        },
-        title: 'Bilješke',
-        home: MyHomePage()
-    );
-  }
+  _NotesController createState() => _NotesController();
 }
 
-class MyHomePage extends StatefulWidget {
+class _NotesController extends State<Notes> {
   @override
-  _MyHomePageState createState() {
-    return _MyHomePageState();
-  }
+  Widget build(BuildContext context) => _NotesView(this);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NotesView extends WidgetView<Notes, _NotesController> {
+  _NotesView(_NotesController state) : super(state);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          _addNoteNavigator();
+          _addNoteNavigator(context);
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.lightBlue,
@@ -43,6 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
+
+    //database
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('note-01').snapshots(),
       builder: (context, snapshot) {
@@ -69,33 +66,32 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final note = Note.fromSnapshot(data);
     return Padding(
-      key: ValueKey(note.id),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: ListTile(
-              title: Text(note.nazivBiljeske),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> EditNote(editingNote:note)))
-          )
-      ),
+        key: ValueKey(note.id),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: ListTile(
+                title: Text(note.nazivBiljeske),
+                onTap: () => _addNoteNavigator(context, note))
+        )
     );
   }
 
-  _addNoteNavigator()
+  _addNoteNavigator(BuildContext context, [Note note])
   {
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => EditNote())
+        MaterialPageRoute(builder: (context) => EditNote(editingNote: note))
     );
   }
 }
-
 
 
 

@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:planerify/models/event.dart';
-import 'package:planerify/res/event_firestore_service.dart';
+import 'package:planerify/res/eventFirestoreService.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;

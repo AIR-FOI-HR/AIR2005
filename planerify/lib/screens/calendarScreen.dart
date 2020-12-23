@@ -4,43 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/event.dart';
-import 'package:planerify/screens/view_event.dart';
+import 'package:planerify/screens/viewEvent.dart';
+import 'package:planerify/support/widgetView.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'add_event.dart';
+import 'addEvent.dart';
 
 
-//Izrada ekrana kalendara kao Stateless Widgeta
-//Kao home mu se zadaje Stateful Widget CalendarPage
-//Definira se ruta add_event koja vodi do ekrana za dodavanje novog događaja
-class CalendarScreen extends StatelessWidget {
+class Calendar extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Planerify Calendar',
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: CalendarPage(title: 'Planerify Calendar'),
-      routes: {
-        "add_event": (_) => AddEventPage(),
-      }
-      ,
-    );
-  }
+  _CalendarController createState() => _CalendarController();
 }
 
-//CalendarPage sadrži stanje koje se zove CreateState kojime se izrađuje cijeli kalendar
-class CalendarPage extends StatefulWidget {
-  CalendarPage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class _CalendarController extends State<Calendar> {
   @override
-  _CalendarPageState createState() => _CalendarPageState();
-}
-//_CalendarPageState je stanje CalendarPage klase
-//na početku se inicijaliziraju kontroler za kalendar, te mapa događaja koji se prikazuju te lista odabranih događaja
-class _CalendarPageState extends State<CalendarPage> {
+  Widget build(BuildContext context) => _CalendarView(this);
+
   CalendarController _calendarController;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
@@ -68,48 +47,70 @@ class _CalendarPageState extends State<CalendarPage> {
     });
     return data;
   }
+}
 
+class _CalendarView extends WidgetView<Calendar, _CalendarController> {
+  _CalendarView(_CalendarController state) : super(state);
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Planerify Calendar',
+      theme: ThemeData(
+        primarySwatch: Colors.cyan,
+      ),
+      home: CalendarPage(context),
+      routes: {
+        "add_event": (_) => AddEventPage(),
+      }
+      ,
+    );
+  }
+
+  Widget CalendarPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Planer"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("events").snapshots(),
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            List<EventModel> allEvents = [];
-            snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
-            if(allEvents.isNotEmpty){
-              _events = _groupEvents(allEvents);
+          stream: FirebaseFirestore.instance.collection("events").snapshots(),
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              List<EventModel> allEvents = [];
+              snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
+              if(allEvents.isNotEmpty){
+               state._events = state._groupEvents(allEvents);
+              }
+              else {
+                state._events = {};
+                state._selectedEvents = [];
+              }
             }
-            else {
-              _events = {};
-              _selectedEvents = [];
-            }
-          }
-          return Column(
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _buildTableCalendar(),
-                Expanded(child: _buildEventList()),
+                _buildTableCalendar(context),
+                Expanded(child: _buildEventList(context)),
               ],
 
-          );
-        }
+            );
+          }
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, 'add_event'),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddEventPage()));
+        },
       ),
     );
   }
 
-  Widget _buildEventList() {
+
+  Widget _buildEventList(BuildContext context) {
     return ListView(
-      children: _selectedEvents
+      children: state._selectedEvents
           .map((event) => Container(
         decoration: BoxDecoration(
           border: Border.all(width: 0.8),
@@ -132,12 +133,12 @@ class _CalendarPageState extends State<CalendarPage> {
       ))
           .toList(),
     );
-
   }
-  Widget _buildTableCalendar() {
+
+  Widget _buildTableCalendar(BuildContext context) {
     return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
+      calendarController: state._calendarController,
+      events: state._events,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
         selectedColor: Colors.red[400],
@@ -155,12 +156,16 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
       ),
       onDaySelected: (day, events, holidays){
-        setState(() {
-          _selectedEvents = events;
+        state.setState(() {
+          state._selectedEvents = events;
         });
       },
     );
   }
 }
+
+
+
+
 
 
