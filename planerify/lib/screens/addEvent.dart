@@ -7,6 +7,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:planerify/models/event.dart';
 import 'package:planerify/res/eventFirestoreService.dart';
 import 'package:planerify/support/widgetView.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddEventPage extends StatefulWidget {
 
@@ -67,24 +68,39 @@ class _AddEventPageController extends State<AddEventPage> {
         processing = true;
       });
       if(widget.note != null) {
-        await eventDBS.updateData(widget.note.id,{
-          "title": _title.text,
-          "description": _description.text,
-          "event_date": widget.note.eventDate
-        });
+        await updateEvent();
       }
       else {
-        Map<String,dynamic> newEvent = {
-          "title": _title.text,
-          "description": _description.text,
-          "eventDate": _eventDate};
-        await eventDBS.create(newEvent);
+        try {
+          await createEvent();
+          Navigator.pop(context);
+        }
+         on Exception{
+               Alert(context: context, title: "", desc: "Could not create event.").show();
+        }
+        finally{
+          setState(() {
+            processing = false;
+          });
+        }
       }
-      Navigator.pop(context);
-        setState(() {
-          processing = false;
-      });
     }
+  }
+
+  Future createEvent() async {
+    Map<String,dynamic> newEvent = {
+      "title": _title.text,
+      "description": _description.text,
+      "eventDate": _eventDate};
+    await eventDBS.create(newEvent);
+  }
+
+  Future updateEvent() async {
+     await eventDBS.updateData(widget.note.id,{
+      "title": _title.text,
+      "description": _description.text,
+      "event_date": widget.note.eventDate
+    });
   }
 }
 
