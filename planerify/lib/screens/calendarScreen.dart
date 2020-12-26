@@ -69,8 +69,8 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         title: Text("Planer"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("events").snapshots(),
-          builder:_buildContent,
+        stream: FirebaseFirestore.instance.collection("events").snapshots(),
+        builder:_buildContent,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -86,25 +86,25 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
 
   Widget _buildContent(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)
   {
-      if(snapshot.hasData){
-        List<EventModel> allEvents = [];
-        snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
-        if(allEvents.isNotEmpty){
-          state._events = state._groupEvents(allEvents);
-        }
-        else {
-          state._events = {};
-          state._selectedEvents = [];
-        }
+    if(snapshot.hasData){
+      List<EventModel> allEvents = [];
+      snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
+      if(allEvents.isNotEmpty){
+        state._events = state._groupEvents(allEvents);
       }
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _buildTableCalendar(context),
-          Expanded(child: _buildEventList(context)),
-        ],
+      else {
+        state._events = {};
+        state._selectedEvents = [];
+      }
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _buildTableCalendar(context),
+        Expanded(child: _buildEventList(context)),
+      ],
 
-      );
+    );
 
   }
 
