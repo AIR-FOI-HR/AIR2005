@@ -31,6 +31,9 @@ class _EditNoteController extends State<EditNote> {
 
   TextEditingController nazivController= TextEditingController();
   TextEditingController sadrzajController = TextEditingController();
+  final _firestoreInstance = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  var _user;
 
   @override
   void initState() {
@@ -47,7 +50,7 @@ class _EditNoteController extends State<EditNote> {
       nazivController.clear();
       sadrzajController.clear();
     }
-    print(nazivController.text);
+    _user =  _firebaseAuth.currentUser.uid;
 
   }
 
@@ -64,24 +67,21 @@ class _EditNoteController extends State<EditNote> {
 
   //logika
   void handleButtonPressed() {
-    final firestoreInstance = FirebaseFirestore.instance;
-    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    var user = _firebaseAuth.currentUser.uid;
     if(editingNote != null) {
 
-      firestoreInstance.collection("notes").doc(editingNote.id).set(
+      _firestoreInstance.collection("notes").doc(editingNote.id).set(
           {
             "Sadržaj" : sadrzajController.text,
             "Naziv" : nazivController.text,
-            "user_id": user
+            "user_id": _user
           },SetOptions(merge: true));
     }
     else{
-      firestoreInstance.collection("notes").add(
+      _firestoreInstance.collection("notes").add(
           {
             "Naziv": nazivController.text,
             "Sadržaj": sadrzajController.text,
-            "user_id": user,
+            "user_id": _user,
           }).then((value){
       });
     }

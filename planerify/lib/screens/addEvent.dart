@@ -2,6 +2,7 @@
 //and https://pub.dev/packages/flutter_datetime_picker
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:planerify/models/event.dart';
@@ -29,6 +30,8 @@ class _AddEventPageController extends State<AddEventPage> {
   DateTime _eventDate;
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  var _user;
   bool processing;
 
   @override
@@ -38,6 +41,7 @@ class _AddEventPageController extends State<AddEventPage> {
     _description = TextEditingController(text:  widget.note != null ? widget.note.description : "");
     _eventDate = DateTime.now();
     processing = false;
+    _user = _firebaseAuth.currentUser.uid;
   }
 
   @override
@@ -91,7 +95,9 @@ class _AddEventPageController extends State<AddEventPage> {
     Map<String,dynamic> newEvent = {
       "title": _title.text,
       "description": _description.text,
-      "eventDate": _eventDate};
+      "eventDate": _eventDate,
+      "user_id": _user
+    };
     await eventDBS.create(newEvent);
   }
 
@@ -99,7 +105,8 @@ class _AddEventPageController extends State<AddEventPage> {
      await eventDBS.updateData(widget.note.id,{
       "title": _title.text,
       "description": _description.text,
-      "event_date": widget.note.eventDate
+      "event_date": widget.note.eventDate,
+       "user_id": _user
     });
   }
 }
@@ -191,7 +198,6 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
         borderRadius: BorderRadius.circular(30.0),
         color: Colors.cyan,
         child: MaterialButton(
-          //logika
           onPressed: () {state.handleButtonPressed();},
           child: Text(
             "Spremi",

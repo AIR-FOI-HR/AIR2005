@@ -9,8 +9,11 @@ import 'package:planerify/screens/mainScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(
-  home: LoginPage()));
+  runApp(
+      MaterialApp(
+        home: LoginPage()
+    )
+  );
 }
 
 
