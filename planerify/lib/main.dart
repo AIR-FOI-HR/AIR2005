@@ -11,6 +11,7 @@ void main() async {
   await Firebase.initializeApp();
   runApp(
       MaterialApp(
+        theme: ThemeData(primarySwatch: Colors.cyan),
         home: LoginPage()
     )
   );

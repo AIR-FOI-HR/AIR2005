@@ -106,7 +106,7 @@ class _EditNoteView extends WidgetView<EditNote, _EditNoteController> {
           state.handleButtonPressed();
         },
         child: Icon(Icons.check),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.red.shade400,
       ),
 
     );

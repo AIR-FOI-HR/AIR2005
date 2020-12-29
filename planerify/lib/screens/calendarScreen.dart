@@ -15,6 +15,8 @@ import 'addEvent.dart';
 
 
 class Calendar extends StatefulWidget {
+  static const routeName = '/calendarScreen';
+
   @override
   _CalendarController createState() => _CalendarController();
 }
@@ -104,16 +106,6 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Planerify Calendar',
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: _calendarPage(context),
-    );
-  }
-
-  Widget _calendarPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Planer"),
@@ -124,6 +116,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        backgroundColor: Colors.red.shade400,
         onPressed: () {
           Navigator.push(
               context,

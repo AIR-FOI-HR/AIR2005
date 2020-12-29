@@ -54,7 +54,7 @@ class _State extends State<LoginPage> {
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: RaisedButton(
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Theme.of(context).primaryColor,
                       child: Text('Login'),
                       onPressed: ()  {
                         String email =nameController.text;

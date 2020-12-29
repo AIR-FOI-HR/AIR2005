@@ -9,18 +9,15 @@ import 'notes.dart';
 
 
 class IconButtonApp extends StatelessWidget {
-  static const String _title = 'Planerify';
 
 
   @override
   Widget build(BuildContext context) {
     listOfCards.clear();
     InitializeList();
-    return MaterialApp(
-      title: _title,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.grey,
-        appBar: AppBar(title: const Text(_title)),
+        appBar: AppBar(title: Text("Planerify")),
         body: ListView.builder(
             itemCount: listOfCards.length,
             itemBuilder: _itemBuilder,
@@ -29,7 +26,7 @@ class IconButtonApp extends StatelessWidget {
           child: MyStatefulWidget(),
         ),
       ),*/
-    ));
+    );
   }
 }
 
