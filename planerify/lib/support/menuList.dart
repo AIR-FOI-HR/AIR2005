@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planerify/screens/calendarScreen.dart';
 import 'package:planerify/screens/notes.dart';
+import 'package:planerify/screens/temperatureNotes.dart';
 
 
 import '../models/menuOption.dart';
