@@ -58,14 +58,13 @@ class _EditNoteController extends State<EditNote> {
   {
     if(choice == Constants.Delete){
       final firestoreInstance = FirebaseFirestore.instance;
-      firestoreInstance.collection("note-01").doc(editingNote.id).delete().then((_) {
+      firestoreInstance.collection("notes").doc(editingNote.id).delete().then((_) {
         print("success!");
       });
       Navigator.pop(context);
     }
   }
-
-  //logika
+  
   void handleButtonPressed() {
     if(editingNote != null) {
 
