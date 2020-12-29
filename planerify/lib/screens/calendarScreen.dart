@@ -159,6 +159,18 @@ class _MyHomepageState extends State<MyHomePage> {
                     },
                     child: Text('Spremi'))
               ],
+              FlatButton(
+                onPressed: (){
+                  setState((){
+                    FirebaseFirestore.instance
+                    .collection('events')
+                    .doc(_eventForEditing.reference.id)
+                    .delete();
+                  });
+                  Navigator.pop(content);
+                },
+                child: Text('Obriši')
+              )
             ));
   }
 
