@@ -64,7 +64,6 @@ class _CalendarController extends State<Calendar> {
 
   void handleSavedButton()
   {
-    //logika
     if (!_formKey.currentState.validate()) {
       return;
     }

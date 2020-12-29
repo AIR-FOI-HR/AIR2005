@@ -64,7 +64,7 @@ class _EditNoteController extends State<EditNote> {
       Navigator.pop(context);
     }
   }
-  
+
   void handleButtonPressed() {
     if(editingNote != null) {
 

@@ -11,6 +11,7 @@ import 'package:planerify/support/widgetView.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddEventPage extends StatefulWidget {
+  static const routeName = '/addEvent';
 
   final EventModel note;
 
