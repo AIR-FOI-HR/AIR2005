@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:planerify/models/temperature.dart';
 import 'package:planerify/support/widgetView.dart';
 import 'editTemperature.dart';
@@ -77,7 +78,9 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: ListTile(
-                title: Text(temperature.sadrzajBiljeske),
+              leading: Icon(Icons.thermostat_rounded),
+                title: Text('${temperature.sadrzajBiljeske} °C'),
+                subtitle: temperature.datum == null ? Text('Nije zapisan datum') : Text('${DateFormat("d.M.y. HH:mm").format(temperature.datum)}'),
                 onTap: () => _addTemperatureNavigator(context, temperature))
         )
     );
