@@ -1,5 +1,6 @@
+import 'package:calendar/models/event.dart';
 import 'package:flutter/material.dart';
-import 'package:planerify/models/event.dart';
+
 
 class EventDetailsPage extends StatelessWidget {
   final EventModel event;

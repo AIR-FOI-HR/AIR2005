@@ -1,13 +1,12 @@
 //implementation based on https://github.com/lohanidamodar/flutter_calendar
 //and https://pub.dev/packages/flutter_datetime_picker
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:calendar/models/event.dart';
+import 'package:calendar/res/eventFirestoreService.dart';
+import 'package:calendar/support/widgetView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:planerify/models/event.dart';
-import 'package:planerify/res/eventFirestoreService.dart';
-import 'package:planerify/support/widgetView.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddEventPage extends StatefulWidget {

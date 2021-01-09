@@ -1,15 +1,17 @@
 //implementation was based on project found on https://github.com/lohanidamodar/flutter_calendar
 
+import 'package:calendar/models/event.dart';
+import 'package:calendar/screens/viewEvent.dart';
+import 'package:calendar/support/widgetView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:planerify/models/event.dart';
-import 'package:planerify/screens/viewEvent.dart';
-import 'package:planerify/support/widgetView.dart';
+
 import 'package:table_calendar/table_calendar.dart';
+
 
 import 'addEvent.dart';
 
