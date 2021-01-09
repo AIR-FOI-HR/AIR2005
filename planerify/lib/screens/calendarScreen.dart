@@ -97,6 +97,16 @@ class _CalendarController extends State<Calendar> {
       print(_eventForEditing.title);
     });
   }
+
+  void handleDeleteButton()
+  {
+    setState((){
+      FirebaseFirestore.instance
+          .collection('events')
+          .doc(_eventForEditing.id)
+          .delete();
+    });
+  }
 }
 
 class _CalendarView extends WidgetView<Calendar, _CalendarController> {
@@ -247,6 +257,15 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
                   Navigator.pop(context);
                 },
                 child: Text('Spremi'))
+            ,
+            FlatButton(
+                onPressed: (){
+                  state.handleDeleteButton();
+
+                  Navigator.pop(context);
+                },
+                child: Text('Obriši')
+            )
           ],
         ));
 
