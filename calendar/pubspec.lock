@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
+  calendar_importer:
+    dependency: "direct main"
+    description:
+      path: "../calendar_importer"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   characters:
     dependency: transitive
     description:

@@ -2,7 +2,9 @@
 
 import 'package:calendar/models/event.dart';
 import 'package:calendar/screens/viewEvent.dart';
+import 'package:calendar/support/calendarConstants.dart';
 import 'package:calendar/support/widgetView.dart';
+import 'package:calendar_importer/screens/importList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -109,6 +111,16 @@ class _CalendarController extends State<Calendar> {
           .delete();
     });
   }
+
+  void handlePopupMenuChoice(String choice)
+  {
+    if(choice == Constants.Import){
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ImportList())
+      );
+    }
+  }
 }
 
 class _CalendarView extends WidgetView<Calendar, _CalendarController> {
@@ -121,6 +133,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Planer"),
+        actions:<Widget> [_buildPopupMenu(context)],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
@@ -162,6 +175,21 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
 
     );
 
+  }
+
+  Widget _buildPopupMenu(BuildContext context){
+      return
+        PopupMenuButton<String>(
+          onSelected: state.handlePopupMenuChoice,
+          itemBuilder: (BuildContext context){
+            return Constants.choices.map((String choice){
+              return PopupMenuItem<String>(
+                value: choice,
+                child: Text(choice),
+              );
+            }).toList();
+          },
+        );
   }
 
   Widget _buildEventList(BuildContext context) {
