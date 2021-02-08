@@ -1,6 +1,8 @@
 //Preuzeto sa https://pub.dev/packages/google_sign_in/example
 
+import 'package:calendar_importer/models/EventFetcher.dart';
 import 'package:calendar_importer/models/calendarSource.dart';
+import 'package:calendar_importer/models/currentUser.dart';
 import 'package:calendar_importer/support/widgetView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 GoogleSignIn _googleSignIn= GoogleSignIn();
-
-
 
 class ImportList extends StatefulWidget {
   @override
@@ -21,30 +21,48 @@ class _ImportListController extends State<ImportList> {
   @override
   Widget build(BuildContext context) => _ImportListView(this);
   GoogleSignInAccount _currentUser;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  EventFetcher _eventFetcher;
+  var _user;
+  bool _isLoggedIn=false;
 
   @override
   void initState() {
     super.initState();
+    listOfSources = [
+      CalendarSource(name: "Neradni dani i blagdani",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer1.json')
+    ];
+    _user = _firebaseAuth.currentUser.uid;
+    _eventFetcher = new EventFetcher(_user);
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       setState(() {
         _currentUser = account;
+        CurrentUser.currentGoogleAccount = account;
       });
     });
     _googleSignIn.signInSilently();
-    listOfSources = [CalendarSource(name: "Naziv",url: "nesto")];
-
   }
 
+  _handleSignInBuild(){
+    if(CurrentUser.currentGoogleAccount!=null)
+      _currentUser=CurrentUser.currentGoogleAccount;
+  }
 
   _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
+      _isLoggedIn = true;
     } catch (error) {
+      print("error");
       print(error);
     }
   }
 
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
+
+  void _handleListItemTap(CalendarSource source) {
+    _eventFetcher.fetchEvents(source.url);
+  }
 }
 
 class _ImportListView extends WidgetView<ImportList, _ImportListController> {
@@ -52,6 +70,9 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
 
   @override
   Widget build(BuildContext context) {
+    state._handleSignIn();
+    print(state._isLoggedIn);
+    state._handleSignInBuild();
     return Scaffold(
       appBar: AppBar(
         title: Text("Popis izvora"),
@@ -63,7 +84,8 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
     );
   }
   Widget _buildBody(BuildContext context) {
-    if (state._currentUser != null) {
+
+    if (state._currentUser!= null) {
       return Container(
         child: _buildList(context),
       );
@@ -100,7 +122,7 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
               margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               child: ListTile(
                 title: Text('${state.listOfSources[index].name}'),
-                onTap: (){}
+                onTap: (){state._handleListItemTap(state.listOfSources[index]);}
           )
           );
         });
