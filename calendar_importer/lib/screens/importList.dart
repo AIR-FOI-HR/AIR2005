@@ -24,13 +24,13 @@ class _ImportListController extends State<ImportList> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   EventFetcher _eventFetcher;
   var _user;
-  bool _isLoggedIn=false;
 
   @override
   void initState() {
     super.initState();
     listOfSources = [
-      CalendarSource(name: "Neradni dani i blagdani",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer1.json')
+      CalendarSource(name: "Neradni dani i blagdani",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer1.json'),
+      CalendarSource(name: "IPI ispitni rokovi obaveznih kolegija 1. semestra",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer2.json')
     ];
     _user = _firebaseAuth.currentUser.uid;
     _eventFetcher = new EventFetcher(_user);
@@ -51,18 +51,37 @@ class _ImportListController extends State<ImportList> {
   _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
-      _isLoggedIn = true;
     } catch (error) {
-      print("error");
-      print(error);
+      _throwExceptionDialog();
     }
   }
 
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   void _handleListItemTap(CalendarSource source) {
-    _eventFetcher.fetchEvents(source.url);
+    try {
+      _eventFetcher.fetchEvents(source.url);
+      Navigator.pop(context);
+    } on Exception {
+      _throwExceptionDialog();
+    }
+
   }
+  void _throwExceptionDialog(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Iznimka"),
+            content: Text("Došlo je do pogreške u radu aplikacije."),
+            actions: [
+              FlatButton(onPressed: (){}, child: Text("U redu"))
+            ],
+          );
+        }
+    );
+  }
+
 }
 
 class _ImportListView extends WidgetView<ImportList, _ImportListController> {
@@ -70,8 +89,6 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
 
   @override
   Widget build(BuildContext context) {
-    state._handleSignIn();
-    print(state._isLoggedIn);
     state._handleSignInBuild();
     return Scaffold(
       appBar: AppBar(
