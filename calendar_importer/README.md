@@ -1,6 +1,6 @@
 # calendar_importer
 
-A new Flutter module.
+Modul za uvoženje kalendara sa udaljene lokacije.
 
 ## Getting Started
 

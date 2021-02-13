@@ -1,6 +1,6 @@
-# calendar_loader
+# calendar
 
-A new Flutter module.
+Modul za prikaz kalendara
 
 ## Getting Started
 
