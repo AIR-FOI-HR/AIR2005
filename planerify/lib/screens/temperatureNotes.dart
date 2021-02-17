@@ -45,7 +45,32 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
     var user = _firebaseAuth.currentUser.uid;
     return Scaffold(
       appBar: AppBar(
-          title: Text('Bilješke o temperaturi')
+          title: Text('Bilješke o temperaturi'),
+
+        actions: [
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('temperature').where("user_id", isEqualTo: user).snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return LinearProgressIndicator();
+              return IconButton(icon: Icon(Icons.save), onPressed: () {
+                var allData = [];
+
+                for (var doc in snapshot.data.docs) {
+                  var data = doc.data();
+                  DateTime date = DateTime.parse(data['datum']);
+                  allData.add('${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data['sadrzaj']} °C');
+                }
+
+                var dataToSave = allData.join('\n');
+
+                writeData(dataToSave);
+
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Podaci spremljeni!')));
+              } ,);
+            },
+          )
+        ],
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
