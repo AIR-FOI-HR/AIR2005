@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +24,25 @@ class _TemperatureController extends State<Temperature> {
 class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
   _TemperatureView(_TemperatureController state) : super(state);
 
+  Future<File> writeData(String data) async {
+    final dir = await DownloadsPathProvider.downloadsDirectory;
+    final file = File('${dir.path}/biljeske_temperatura.txt');
+
+    if (await file.exists()) {
+      await file.delete();
+      await file.create();
+    }
+    else {
+      file.create();
+    }
+
+    return file.writeAsString(data);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    var user = _firebaseAuth.currentUser.uid;
     return Scaffold(
       appBar: AppBar(
           title: Text('Bilješke o temperaturi')
