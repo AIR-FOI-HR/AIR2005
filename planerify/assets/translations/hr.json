@@ -40,5 +40,11 @@
   "delete": "Izbriši",
   "enterText": "Unesite tekst",
   "description": "Opis",
-  "activityDetails": "Detalji aktivnosti"
+  "activityDetails": "Detalji aktivnosti",
+  "enableNotifications": "Omogući dnevne obavijesti",
+  "calendars": "Kalendari",
+  "sourceList": "Popis izvora",
+  "holidays": "Praznici",
+  "ok": "U redu",
+  "userData": "Podaci o korisničkom računu"
 }

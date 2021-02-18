@@ -40,7 +40,12 @@
   "delete": "Delete",
   "enterText": "Please enter text",
   "description": "Description",
-  "activityDetails": "Activity details"
-
+  "activityDetails": "Activity details",
+  "enableNotifications": "Enable daily notifications",
+  "calendars": "Calendars",
+  "sourceList": "List of sources",
+  "holidays": "Holidays",
+  "ok": "OK",
+  "userData": "User data"
 
 }

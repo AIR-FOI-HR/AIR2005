@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../models/calendar.dart';
 import 'addCalendar.dart';
 import 'calendarScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Calendars extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kalendari'),
+        title: Text('calendars').tr(),
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(

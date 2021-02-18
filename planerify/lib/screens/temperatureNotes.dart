@@ -82,7 +82,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
               _addTemperatureNavigator(context);
             },
             child: Icon(Icons.add),
-            backgroundColor: Colors.lightBlue,
+
           ),
           bottomNavigationBar: Container(
             height: 50,
@@ -91,7 +91,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
               onPressed: (){
                 _addTemperatureNotification(context);
               },
-              child: Text('omogući dnevne obavijesti'),
+              child: Text("enableNotifications").tr(),
             )
         ),
     );

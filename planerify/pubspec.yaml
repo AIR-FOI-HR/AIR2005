@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.16.1
   downloads_path_provider: ^0.1.0
   theme_mode_handler: ^2.0.0
+  theme_provider: ^0.4.0+1
 
   calendar:
     path:  ../calendar

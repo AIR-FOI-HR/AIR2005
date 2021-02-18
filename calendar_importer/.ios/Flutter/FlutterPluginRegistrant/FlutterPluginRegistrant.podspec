@@ -23,4 +23,5 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'firebase_auth'
   s.dependency 'firebase_core'
   s.dependency 'google_sign_in'
+  s.dependency 'shared_preferences'
 end

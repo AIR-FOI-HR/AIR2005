@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 GoogleSignIn _googleSignIn= GoogleSignIn();
 
@@ -42,7 +43,7 @@ class _ImportListController extends State<ImportList> {
   void initState() {
     super.initState();
     listOfSources = [
-      CalendarSource(name: "Neradni dani i blagdani",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer1.json'),
+      CalendarSource(name: "holidays".tr(),url: 'https://raw.githubusercontent.com/psikac/storage/main/planer1.json'),
       CalendarSource(name: "IPI ispitni rokovi obaveznih kolegija 1. semestra",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer2.json')
     ];
     _user = _firebaseAuth.currentUser.uid;
@@ -85,10 +86,10 @@ class _ImportListController extends State<ImportList> {
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
-            title: Text("Iznimka"),
-            content: Text("Došlo je do pogreške u radu aplikacije."),
+            title: Text("loginFailed").tr(),
+            content: Text("unknownLoginError").tr(),
             actions: [
-              FlatButton(onPressed: (){}, child: Text("U redu"))
+              FlatButton(onPressed: (){}, child: Text("ok").tr())
             ],
           );
         }
@@ -106,7 +107,7 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
     state._handleSignInBuild();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Popis izvora"),
+        title: Text("sourceList").tr(),
         actions:<Widget> [
           _buildAccountIcon(context)
         ],
@@ -190,7 +191,7 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: Text("Podaci o korisnickom racunu"),
+            title: Text("userData").tr(),
             children:<Widget> [
               Column(crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -205,7 +206,7 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
                 FlatButton(
                     onPressed: (){state._handleSignOut();Navigator.pop(context);},
                     color: Colors.red.shade300,
-                    child: Text("Odjava"))
+                    child: Text("logout").tr())
                   ],)
             ],
           );
