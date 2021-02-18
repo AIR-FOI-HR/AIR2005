@@ -15,9 +15,10 @@ import 'package:custom_switch/custom_switch.dart';
 class AddEventPage extends StatefulWidget {
   static const routeName = '/addEvent';
 
+  final String calendarId;
   final EventModel note;
 
-  const AddEventPage({Key key, this.note}) : super(key: key);
+  const AddEventPage({Key key, this.note, this.calendarId}) : super(key: key);
 
   @override
   _AddEventPageController createState() => _AddEventPageController();
@@ -102,7 +103,7 @@ class _AddEventPageController extends State<AddEventPage> {
       "title": _title.text,
       "description": _description.text,
       "eventDate": _eventDate,
-      "user_id": _user
+      "user_id": widget.calendarId
     };
     await eventDBS.create(newEvent);
   }
@@ -112,7 +113,7 @@ class _AddEventPageController extends State<AddEventPage> {
       "title": _title.text,
       "description": _description.text,
       "event_date": widget.note.eventDate,
-       "user_id": _user
+       "user_id": widget.calendarId
     });
   }
 }

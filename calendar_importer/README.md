@@ -1,6 +1,6 @@
-# calendar
+# calendar_importer
 
-Modul za prikaz kalendara
+Modul za uvoženje kalendara sa udaljene lokacije.
 
 ## Getting Started
 

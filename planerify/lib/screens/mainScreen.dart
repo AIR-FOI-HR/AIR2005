@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:planerify/models/menuOption.dart';
 import 'package:planerify/screens/settings.dart';
 import 'package:planerify/support/menuList.dart';
-
+import 'package:planerify/support/globals.dart' as globals;
+import 'package:flutter/foundation.dart';
+import 'dart:developer';
 import 'notes.dart';
-
-
+import 'package:theme_provider/theme_provider.dart';
 
 
 class IconButtonApp extends StatelessWidget {

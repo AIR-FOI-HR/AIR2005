@@ -3,7 +3,9 @@
 import 'package:calendar/models/event.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:calendar/screens/viewEvent.dart';
+import 'package:calendar/support/calendarConstants.dart';
 import 'package:calendar/support/widgetView.dart';
+import 'package:calendar_importer/screens/importList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,23 +14,40 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import 'package:table_calendar/table_calendar.dart';
 
 
 import 'addEvent.dart';
+import 'addCalendar.dart';
+import 'package:calendar/models/calendar.dart';
 
 
-class Calendar extends StatefulWidget {
+class CalendarView extends StatefulWidget {
+  final String kalendarId;
+  CalendarView({Key key, @required this.kalendarId}) : super(key: key);
+
   static const routeName = '/calendarScreen';
 
   @override
-  _CalendarController createState() => _CalendarController();
+  _CalendarController createState() => _CalendarController(kalendarId);
 }
 
-class _CalendarController extends State<Calendar> {
+class _CalendarController extends State<CalendarView> {
+  final String calendarId;
+
+  _CalendarController(this.calendarId);
+
+
   @override
-  Widget build(BuildContext context) => _CalendarView(this);
+  Widget build(BuildContext context) {
+    print(calendarId);
+    return _CalendarView(this,calendarId);
+  }
+
 
   CalendarController _calendarController;
   Map<DateTime, List<dynamic>> _events;
@@ -60,6 +79,7 @@ class _CalendarController extends State<Calendar> {
   Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
+      //Dodat provjeru ako je idUsera na eventu jednak idKalendara
       DateTime date = DateTime(event.eventDate.year, event.eventDate.month, event.eventDate.day,12);
       if(data[date] == null)
         data[date] = [];
@@ -68,6 +88,7 @@ class _CalendarController extends State<Calendar> {
     });
     return data;
   }
+
 
   void handleSavedButton()
   {
@@ -112,11 +133,21 @@ class _CalendarController extends State<Calendar> {
           .delete();
     });
   }
+
+  void handlePopupMenuChoice()
+  {
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ImportList(calendarId: calendarId,))
+      );
+
+  }
 }
 
 class _CalendarView extends WidgetView<Calendar, _CalendarController> {
-  _CalendarView(_CalendarController state) : super(state);
-
+  final String calendarId;
+  _CalendarView(_CalendarController state,this.calendarId) : super(state);
   Future<File> writeData(String data) async {
     final dir = await DownloadsPathProvider.downloadsDirectory;
     final file = File('${dir.path}/kalendar_dogadjaji.txt');
@@ -131,7 +162,6 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
 
     return file.writeAsString(data);
   }
-
   @override
   Widget build(BuildContext context) {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -139,7 +169,22 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("planner").tr(),
+          actionsIconTheme: IconThemeData(
+              size: 30.0,
+              color: Colors.white,
+              opacity: 10.0
+          ),
         actions: [
+          IconButton(icon: Icon(Icons.delete),onPressed: (){
+            FirebaseFirestore.instance
+                .collection('calendar')
+                .doc(calendarId)
+                .delete();
+            Navigator.of(context).pop();
+          },),
+          IconButton(icon: Icon(Icons.transit_enterexit),onPressed: (){
+            state.handlePopupMenuChoice();
+          },),
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
             builder: (context, snapshot) {
@@ -165,7 +210,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
+        stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state.calendarId).snapshots(),
         builder:_buildContent,
       ),
       floatingActionButton: FloatingActionButton(
@@ -174,7 +219,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddEventPage()));
+              MaterialPageRoute(builder: (context) => AddEventPage(calendarId: calendarId,)));
           _buildEventList(context);
         },
       ),
@@ -203,9 +248,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       ],
 
     );
-
   }
-
   Widget _buildEventList(BuildContext context) {
     return ListView(
       children: state._selectedEvents
