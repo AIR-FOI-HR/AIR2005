@@ -52,8 +52,7 @@ Widget _itemBuilder(BuildContext context, int index) {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   MenuOption menuOption = getInstance(index);
-  print(_firebaseAuth.currentUser.email);
-  print(_firebaseAuth.currentUser.uid);
+
   return  Card(
           child: InkWell(
           splashColor: Colors.black12,

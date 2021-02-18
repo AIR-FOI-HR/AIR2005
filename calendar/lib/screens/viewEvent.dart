@@ -1,5 +1,6 @@
 import 'package:calendar/models/event.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class EventDetailsPage extends StatelessWidget {
@@ -11,7 +12,7 @@ class EventDetailsPage extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalji aktivnosti'),
+        title: Text('activityDetails').tr(),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

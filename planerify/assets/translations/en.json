@@ -20,6 +20,23 @@
   "temperatureNotes": "Temperature notes",
   "addTemperatureNote": "Add temperature note",
   "dateNotEntered": "Date not entered",
-  "settings": "Settings"
+  "settings": "Settings",
+  "calendar": "Calendar",
+
+  "couldNotCreateEvent": "Could not create event.",
+  "enterName": "Enter name",
+  "eventName": "Event name",
+  "enterEventDescription": "Enter event description",
+  "eventDescription": "Event description",
+  "date": "Date ",
+  "save": "Save",
+  "planner": "Planner",
+  "editEvent": "Edit event",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "enterText": "Please enter text",
+  "description": "Description",
+  "activityDetails": "Activity details"
+
 
 }

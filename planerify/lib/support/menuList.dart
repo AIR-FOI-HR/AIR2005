@@ -2,6 +2,7 @@ import 'package:calendar/screens/calendarScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/screens/notes.dart';
 import 'package:planerify/screens/temperatureNotes.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 import '../models/menuOption.dart';
@@ -15,8 +16,7 @@ getInstance(int index) {
 
 InitializeList()
 {
-
-  listOfCards.add(new MenuOption("Bilješke", Icons.note, Notes()));
-  listOfCards.add(new MenuOption("Kalendar", Icons.calendar_today_outlined, Calendar()));
-  listOfCards.add(new MenuOption("Bilješke o temperaturi", Icons.coronavirus_outlined, Temperature()));
+  listOfCards.add(new MenuOption("notes".tr(), Icons.note, Notes()));
+  listOfCards.add(new MenuOption("calendar".tr(), Icons.calendar_today_outlined, Calendar()));
+  listOfCards.add(new MenuOption("temperatureNotes".tr(), Icons.coronavirus_outlined, Temperature()));
 }

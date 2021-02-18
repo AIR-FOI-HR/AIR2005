@@ -20,5 +20,21 @@
   "temperatureNotes": "Bilješke o temperaturi",
   "addTemperatureNote": "Unesi bilješku o temperaturi",
   "dateNotEntered": "Nije zapisan datum",
-  "settings": "Postavke"
+  "settings": "Postavke",
+  "calendar": "Kalendar",
+
+  "couldNotCreateEvent": "Greška prilikom kreiranja događaja",
+  "enterName": "Unesite ime",
+  "eventName": "Ime događaja",
+  "enterEventDescription": "Unesite opis događaja",
+  "eventDescription": "Opis događaja",
+  "date": "Datum ",
+  "save": "Spremi",
+  "planner": "Planer",
+  "editEvent": "Uređivanje događaja",
+  "cancel": "Otkaži",
+  "delete": "Izbriši",
+  "enterText": "Unesite tekst",
+  "description": "Opis",
+  "activityDetails": "Detalji aktivnosti"
 }

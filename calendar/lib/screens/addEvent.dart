@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AddEventPage extends StatefulWidget {
   static const routeName = '/addEvent';
@@ -118,7 +119,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.note != null ? "Izmjeni bilješku" : "Dodaj bilješku"),
+        title: Text(widget.note != null ? "editNote".tr() : "addNote".tr()),
       ),
       key: state._key,
       body: Form(
@@ -149,10 +150,10 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
       child: TextFormField(
         controller: state._title,
         validator: (value) =>
-        (value.isEmpty) ? "Unesite naziv" : null,
+        (value.isEmpty) ? "enterName".tr() : null,
         style: state.style,
         decoration: InputDecoration(
-            labelText: "Naziv događaja",
+            labelText: "eventName".tr(),
             filled: true,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
@@ -168,10 +169,10 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
         minLines: 3,
         maxLines: 5,
         validator: (value) =>
-        (value.isEmpty) ? "Unesite opis događaja" : null,
+        (value.isEmpty) ? "enterEventDescription".tr() : null,
         style: state.style,
         decoration: InputDecoration(
-            labelText: "Opis događaja",
+            labelText: "eventDescription".tr(),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
@@ -180,7 +181,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
   Widget _buildDateChooser(BuildContext context)
   {
     return ListTile(
-      title: Text("Datum (YYYY-MM-DD)"),
+      title: Text("Datum".tr() + "(YYYY-MM-DD)"),
       subtitle: Text("${state._eventDate.year} - ${state._eventDate.month} - ${state._eventDate.day} ${state._eventDate.hour}: ${state._eventDate.minute}"),
       onTap:() {
         state.handleDatePicker();
@@ -195,8 +196,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
         child: RaisedButton(
           onPressed: () {state.handleButtonPressed();},
           child: Text(
-            "Spremi"
-
+            "save".tr()
           ),
         ),
       ),

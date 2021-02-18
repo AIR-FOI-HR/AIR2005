@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
@@ -120,7 +121,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Planer"),
+        title: Text("planner").tr(),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
@@ -205,6 +206,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
 
   Widget _buildTableCalendar(BuildContext context) {
     return TableCalendar(
+        locale: context.locale.languageCode,
       calendarController: state._calendarController,
       events: state._events,
       startingDayOfWeek: StartingDayOfWeek.monday,
@@ -227,7 +229,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Uređivanje događaja'),
+          title: Text('editEvent').tr(),
           content: Form(
             key: state._formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -245,13 +247,13 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
           actions: [
             FlatButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Odustani')),
+                child: Text('cancel').tr()),
             FlatButton(
                 onPressed: () {
                   state.handleSavedButton();
                   Navigator.pop(context);
                 },
-                child: Text('Spremi'))
+                child: Text('save').tr())
             ,
             FlatButton(
                 onPressed: (){
@@ -259,7 +261,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
 
                   Navigator.pop(context);
                 },
-                child: Text('Obriši')
+                child: Text("delete").tr()
             )
           ],
         ));
@@ -272,13 +274,13 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     return TextFormField(
       initialValue: state._eventForEditing.title,
       decoration: InputDecoration(
-          filled: true,labelText: 'Naziv'),
+          filled: true,labelText: 'name'.tr()),
       onSaved: (newValue) {
         state._name = newValue;
       },
       validator: (value) {
         if (value.isEmpty) {
-          return 'Please enter some text';
+          return 'enterText'.tr();
         }
         return null;
       },
@@ -290,13 +292,13 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     return TextFormField(
       initialValue: state._eventForEditing.description,
       decoration: InputDecoration(
-          filled: true,labelText: 'Opis'),
+          filled: true,labelText: 'description'.tr()),
       onSaved: (newValue) {
         state._description = newValue;
       },
       validator: (value) {
         if (value.isEmpty) {
-          return 'Please enter some text';
+          return 'enterText'.tr();
         }
         return null;
       },
@@ -310,7 +312,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       initialValue: state._eventForEditing.eventDate,
       decoration: InputDecoration(
         filled: true,
-        labelText: 'Datum i vrijeme',),
+        labelText: 'dateAndTime',),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
           context: context,
