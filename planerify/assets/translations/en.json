@@ -23,6 +23,9 @@
   "settings": "Settings",
   "calendar": "Calendar",
   "logout": "Logout",
+  "enterValidEmail": "Please enter valid e-mail",
+  "passwordLengthError": "Password must be longer than 8 characters.",
+  "passwordsDoNotMatch": "Passwords do not match.",
 
   "couldNotCreateEvent": "Could not create event.",
   "enterName": "Enter name",

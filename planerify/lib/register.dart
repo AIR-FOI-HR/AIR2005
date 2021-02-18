@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:planerify/screens/settings.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
@@ -39,20 +40,32 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('register').tr(),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsPage())
+                  );
+                },
+                child: Icon(
+                  Icons.settings_applications_sharp,
+                  size: 26.0,
+                ),
+              )
+          ),
+        ],
+      ),
       body: Center(
           child: Form(
               key: _formKey,
               child: ListView(
-                shrinkWrap: true,
                 padding: EdgeInsets.all(10),
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: Text(
-                      'register'.tr(),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Text(
@@ -65,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextFormField(
                       validator: (value) {
                         if (value.isEmpty || !value.contains('@')) {
-                          return 'Please enter a valid email.';
+                          return 'enterValidEmail'.tr();
                         }
                         return null;
                       },
@@ -88,7 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextFormField(
                       validator: (value) {
                         if (value.length < 8) {
-                          return 'Password must be longer than 8 characters.';
+                          return 'passwordLengthError'.tr();
                         }
                         return null;
                       },
@@ -118,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) {
                         if (passwordTextEditController.text.length > 8 &&
                             passwordTextEditController.text != value) {
-                          return 'Passwords do not match.';
+                          return 'passwordsDoNotMatch'.tr();
                         }
                         return null;
                       },
@@ -154,17 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       child: Text('register'.tr()),
                     ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.zero,
-                      child: FlatButton(
-                        child: Text(
-                          'goToLogin'.tr()
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ))
+                  )
                 ],
               ))),
     );

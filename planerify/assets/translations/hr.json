@@ -23,6 +23,9 @@
   "settings": "Postavke",
   "calendar": "Kalendar",
   "logout": "Odjava",
+  "enterValidEmail": "Unesite ispravan e-mail.",
+  "passwordLengthError": "Lozinka mora biti duža od 8 znakova.",
+  "passwordsDoNotMatch": "Passwords do not match.",
 
   "couldNotCreateEvent": "Greška prilikom kreiranja događaja",
   "enterName": "Unesite ime",
