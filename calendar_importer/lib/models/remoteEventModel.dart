@@ -8,17 +8,17 @@ class RemoteEventModel {
 
   RemoteEventModel({this.title, this.description, this.eventDate, this.user});
 
-  factory RemoteEventModel.fromJson(Map<String, dynamic> json) {
+  factory RemoteEventModel.fromJson(Map<String, dynamic> json, String calendar) {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     return RemoteEventModel(
       title: json['title'],
       description: json['description'],
       eventDate: DateTime.parse(json['eventDate']),
-      user: _firebaseAuth.currentUser.uid
+      user: calendar
     );
   }
 
-  Map<String,dynamic> toMap() {
+  Map<String,dynamic> toMap(String calendar) {
     return {
       "title":title,
       "description": description,

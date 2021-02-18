@@ -6,9 +6,8 @@ import 'package:http/http.dart' as http;
 
 class EventFetcher
 {
-  EventFetcher(user);
 
-  void fetchEvents(String url) async {
+  void fetchEvents(String url, String calendarId) async {
     final response =
     await http.get(url);
 
@@ -18,8 +17,8 @@ class EventFetcher
       final json = jsonDecode(response.body);
       if (json != null) {
         json.forEach((element) {
-          final event = RemoteEventModel.fromJson(element);
-          EventImporter.importEvent(event);
+          final event = RemoteEventModel.fromJson(element, calendarId);
+          EventImporter.importEvent(event,calendarId);
           print(event);
         });
       }

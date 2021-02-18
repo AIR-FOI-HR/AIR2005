@@ -12,12 +12,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 GoogleSignIn _googleSignIn= GoogleSignIn();
 
 class ImportList extends StatefulWidget {
+
+  final String calendarId;
+
+  ImportList({Key key, @required this.calendarId}) : super(key: key);
   @override
-  _ImportListController createState() => _ImportListController();
+  _ImportListController createState() => _ImportListController(calendarId);
+
 }
 
 class _ImportListController extends State<ImportList> {
+  String calendarId;
   List<CalendarSource> listOfSources;
+  _ImportListController(String calendarId);
+
   @override
   Widget build(BuildContext context) => _ImportListView(this);
   GoogleSignInAccount _currentUser;
@@ -33,7 +41,7 @@ class _ImportListController extends State<ImportList> {
       CalendarSource(name: "IPI ispitni rokovi obaveznih kolegija 1. semestra",url: 'https://raw.githubusercontent.com/psikac/storage/main/planer2.json')
     ];
     _user = _firebaseAuth.currentUser.uid;
-    _eventFetcher = new EventFetcher(_user);
+    _eventFetcher = new EventFetcher();
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       setState(() {
         _currentUser = account;
@@ -60,7 +68,7 @@ class _ImportListController extends State<ImportList> {
 
   void _handleListItemTap(CalendarSource source) {
     try {
-      _eventFetcher.fetchEvents(source.url);
+      _eventFetcher.fetchEvents(source.url,calendarId);
       Navigator.pop(context);
     } on Exception {
       _throwExceptionDialog();
