@@ -2,5 +2,12 @@
   "login": "Prijava",
   "email": "E-Mail",
   "password": "Lozinka",
-  "register": "Registracija"
+  "register": "Registracija",
+  "confirmPassword": "Potvrda lozinke",
+  "goToLogin": "Povratak na prijavu",
+  "loginFailed": "Neuspjela prijava",
+  "loginFailedUserNotFound": "Nepoznat korisnik",
+  "loginFailedWrongPassword": "Pogrešna lozinka",
+  "unknownLoginError": "Nepoznata greška kod prijave",
+  "invalidEmail": "Neispravna e-mail adresa"
 }

@@ -1,6 +1,8 @@
 // Adapted from http://www.codeplayon.com/2020/02/simple-flutter-login-screen-ui-example/
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:planerify/register.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -16,6 +18,8 @@ class _State extends State<LoginPage> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController errorController = TextEditingController();
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -49,6 +53,10 @@ class _State extends State<LoginPage> {
                     ),
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: Text(errorController.text),
+                ),
 
                 Container(
                     height: 50,
@@ -57,17 +65,54 @@ class _State extends State<LoginPage> {
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       child: Text('login').tr(),
+                      onPressed: ()  async {
+                        errorController.text = "";
+                        setState(() {});
+
+                        String email = nameController.text;
+                        String pass = passwordController.text;
+
+                        try {
+                          var user = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: pass);
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => IconButtonApp())
+                            );
+
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            print("abc");
+                            errorController.text = "loginFailedUserNotFound".tr();
+                            setState(() {});
+                          } else if (e.code == 'wrong-password') {
+                            errorController.text = "loginFailedWrongPassword".tr();
+                            setState(() {});
+                          } else if (e.code == 'invalid-email') {
+                            errorController.text = "invalidEmail".tr();
+                            setState(() {});
+                          }
+                          else {
+                            errorController.text = "unknownLoginError".tr();
+                            setState(() {});
+                          }
+                        }
+                      },
+                    )),
+                Container(
+                    height: 50,
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Theme.of(context).primaryColor,
+                      child: Text('register').tr(),
                       onPressed: ()  {
-                        String email =nameController.text;
-                        String pass =passwordController.text;
-                         _firebaseAuth.signInWithEmailAndPassword(email: email, password: pass)
-                            .then((user) => {
-                           Navigator.push(
-                           context,
-                           MaterialPageRoute(builder: (context) => IconButtonApp())
-                           )
-                        })
-                       ;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => RegisterPage())
+                          );
+
+
                       },
                     )),
               ],

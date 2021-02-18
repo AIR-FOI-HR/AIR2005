@@ -2,5 +2,12 @@
   "login": "Login",
   "email": "E-Mail",
   "password": "Password",
-  "register": "Register"
+  "register": "Register",
+  "confirmPassword": "Confirm password",
+  "goToLogin": "Return to login page",
+  "loginFailed": "Login failed",
+  "loginFailedUserNotFound": "Unknown user",
+  "loginFailedWrongPassword": "Wrong password",
+  "unknownLoginError": "Unknown login error",
+  "invalidEmail": "Invalid e-mail address"
 }

@@ -45,10 +45,10 @@ class _RegisterPageState extends State<RegisterPage> {
               key: _formKey,
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.only(top: 36.0, left: 24.0, right: 24.0),
+                padding: EdgeInsets.all(10),
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Text(
                       'register'.tr(),
                       style: TextStyle(fontSize: 36.0, color: Colors.black87),
@@ -56,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Text(
                       '$_errorMessage',
                       style: TextStyle(fontSize: 14.0, color: Colors.red),
@@ -81,11 +81,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         FocusScope.of(context).requestFocus(_passwordFocus);
                       },
                       decoration: InputDecoration(
-                        hintText: 'Email',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
+                        border: OutlineInputBorder(),
+                        labelText: 'email'.tr(),
                       ),
                     ),
                   ),
@@ -108,11 +105,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             .requestFocus(_confirmPasswordFocus);
                       },
                       decoration: InputDecoration(
-                        hintText: 'Password',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
+                        border: OutlineInputBorder(),
+                        labelText: 'password'.tr(),
                       ),
                     ),
                   ),
@@ -132,20 +126,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: 'Confirm Password',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
+                        border: OutlineInputBorder(),
+                        labelText: 'confirmPassword'.tr(),
                       ),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
                       onPressed: () {
 
                         if (_formKey.currentState.validate()) {
@@ -167,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       padding: EdgeInsets.all(12),
                       color: Colors.lightGreen,
-                      child: Text('Sign Up'.toUpperCase(),
+                      child: Text('register'.tr(),
                           style: TextStyle(color: Colors.white)),
                     ),
                   ),
@@ -175,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: EdgeInsets.zero,
                       child: FlatButton(
                         child: Text(
-                          'Cancel',
+                          'goToLogin'.tr(),
                           style: TextStyle(color: Colors.black54),
                         ),
                         onPressed: () {
