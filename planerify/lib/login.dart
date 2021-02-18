@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:planerify/register.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:theme_mode_handler/theme_mode_handler.dart';
 
 
 
