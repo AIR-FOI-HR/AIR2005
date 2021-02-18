@@ -1,6 +1,7 @@
 //implementation was based on project found on https://github.com/lohanidamodar/flutter_calendar
 
 import 'package:calendar/models/event.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:calendar/screens/viewEvent.dart';
 import 'package:calendar/support/widgetView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'dart:io';
 
 import 'package:table_calendar/table_calendar.dart';
 
@@ -115,13 +117,52 @@ class _CalendarController extends State<Calendar> {
 class _CalendarView extends WidgetView<Calendar, _CalendarController> {
   _CalendarView(_CalendarController state) : super(state);
 
+  Future<File> writeData(String data) async {
+    final dir = await DownloadsPathProvider.downloadsDirectory;
+    final file = File('${dir.path}/kalendar_dogadjaji.txt');
 
+    if (await file.exists()) {
+      await file.delete();
+      await file.create();
+    }
+    else {
+      file.create();
+    }
+
+    return file.writeAsString(data);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    var user = _firebaseAuth.currentUser.uid;
     return Scaffold(
       appBar: AppBar(
         title: Text("planner").tr(),
+        actions: [
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return LinearProgressIndicator();
+              return IconButton(icon: Icon(Icons.save), onPressed: () {
+                var allData = [];
+
+                for (var doc in snapshot.data.docs) {
+                  EventModel data = EventModel.fromMap(doc.data());
+                  DateTime date = data.eventDate;
+                  allData.add('${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data.title}\n${data.description}\n');
+                }
+
+                var dataToSave = allData.join('\n');
+
+                writeData(dataToSave);
+
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Podaci spremljeni!')));
+              } ,);
+            },
+          )
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
@@ -129,6 +170,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        backgroundColor: Colors.red.shade400,
         onPressed: () {
           Navigator.push(
               context,

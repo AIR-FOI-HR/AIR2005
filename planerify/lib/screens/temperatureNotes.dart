@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +25,54 @@ class _TemperatureController extends State<Temperature> {
 class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
   _TemperatureView(_TemperatureController state) : super(state);
 
+  Future<File> writeData(String data) async {
+    final dir = await DownloadsPathProvider.downloadsDirectory;
+    final file = File('${dir.path}/biljeske_temperatura.txt');
+
+    if (await file.exists()) {
+      await file.delete();
+      await file.create();
+    }
+    else {
+      file.create();
+    }
+
+    return file.writeAsString(data);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    var user = _firebaseAuth.currentUser.uid;
     return Scaffold(
       appBar: AppBar(
           title: Text('temperatureNotes').tr()
+          title: Text('Bilješke o temperaturi'),
+
+        actions: [
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('temperature').where("user_id", isEqualTo: user).snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return LinearProgressIndicator();
+              return IconButton(icon: Icon(Icons.save), onPressed: () {
+                var allData = [];
+
+                for (var doc in snapshot.data.docs) {
+                  var data = doc.data();
+                  DateTime date = DateTime.parse(data['datum']);
+                  allData.add('${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data['sadrzaj']} °C');
+                }
+
+                var dataToSave = allData.join('\n');
+
+                writeData(dataToSave);
+
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Podaci spremljeni!')));
+              } ,);
+            },
+          )
+        ],
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
