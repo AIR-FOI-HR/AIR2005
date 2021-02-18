@@ -22,12 +22,17 @@ class ImportList extends StatefulWidget {
 }
 
 class _ImportListController extends State<ImportList> {
-  String calendarId;
+  final String calendarId;
   List<CalendarSource> listOfSources;
-  _ImportListController(String calendarId);
+
+  _ImportListController(this.calendarId);
 
   @override
-  Widget build(BuildContext context) => _ImportListView(this);
+  Widget build(BuildContext context){
+    print(calendarId);
+    return _ImportListView(this,calendarId);
+  }
+
   GoogleSignInAccount _currentUser;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   EventFetcher _eventFetcher;
@@ -93,10 +98,11 @@ class _ImportListController extends State<ImportList> {
 }
 
 class _ImportListView extends WidgetView<ImportList, _ImportListController> {
-  _ImportListView(_ImportListController state) : super(state);
+  _ImportListView(_ImportListController state, String calendarId) : super(state);
 
   @override
   Widget build(BuildContext context) {
+    print(state.calendarId);
     state._handleSignInBuild();
     return Scaffold(
       appBar: AppBar(

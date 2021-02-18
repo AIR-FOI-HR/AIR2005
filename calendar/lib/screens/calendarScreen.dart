@@ -138,14 +138,14 @@ class _CalendarController extends State<CalendarView> {
     });
   }
 
-  void handlePopupMenuChoice(String choice)
+  void handlePopupMenuChoice()
   {
-    if(choice == Constants.Import){
+
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ImportList())
+          MaterialPageRoute(builder: (context) => ImportList(calendarId: calendarId,))
       );
-    }
+
   }
 }
 
@@ -170,6 +170,9 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
                   .doc(calendarId)
                   .delete();
               Navigator.of(context).pop();
+          },),
+          IconButton(icon: Icon(Icons.transit_enterexit),onPressed: (){
+            state.handlePopupMenuChoice();
           },)
 
         ],
@@ -393,44 +396,8 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       },
     );
   }
-  Widget _buildPopupMenuList(BuildContext context){
-    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    var user = _firebaseAuth.currentUser.uid;
-    var note;
 
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("calendar").where("user_id", isEqualTo: state._user).snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Text("Loading.....");
-          else {
-            List<PopupMenuItem> currencyItems = [];
-            for (int i = 0; i < snapshot.data.docs.length; i++) {
-              DocumentSnapshot snap = snapshot.data.docs[i];
-              currencyItems.add(
-                PopupMenuItem(
-                  child: Text(
-                    snap.data()["Naziv"],
-                    style: TextStyle(color: Colors.cyan),
-                  ),
-                  value: "${snap.id}",
-                ),
-              );
-            }
-            return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(width: 50.0),
-                  PopupMenuButton(
-                    itemBuilder: (BuildContext context) => currencyItems
-                    ,
-                    onSelected: (note){
-                      print(note);
-                    },
-                  )]);
-          }
-        });
-  }
+
 }
 
 
