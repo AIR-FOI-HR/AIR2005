@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:planerify/login.dart';
 import 'package:planerify/register.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,6 +20,7 @@ class SettingsPage extends StatefulWidget {
 class _State extends State<SettingsPage> {
 
 
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +85,25 @@ print(locale);
                     )
 
                 ),
+                Visibility(
+                  child:
+                    Container(
+                      height: 50,
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: RaisedButton(
+                        child: Text('logout').tr(),
+                        onPressed: ()  async {
+                          await _firebaseAuth.signOut();
 
-
-              ],
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                                  (Route<dynamic> route) => false
+                          );
+                      }
+                    )),
+                  visible: FirebaseAuth.instance.currentUser == null ? false : true
+                )],
             )));
   }
 }

@@ -26,6 +26,7 @@ class _State extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: Text('login').tr(),
@@ -92,10 +93,11 @@ class _State extends State<LoginPage> {
                         try {
                           var user = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: pass);
 
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => IconButtonApp())
-                            );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => IconButtonApp()),
+                                  (Route<dynamic> route) => false
+                          );
 
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {

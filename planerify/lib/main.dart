@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/login.dart';
-import 'package:planerify/register.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:theme_mode_handler/theme_mode_handler.dart';
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
                   theme: ThemeData(
                     brightness: Brightness.light,
                   ),
-                  home: LoginPage()
+                  home:  FirebaseAuth.instance.currentUser == null ? LoginPage() : IconButtonApp()
               );
 
       },

@@ -22,6 +22,7 @@
   "dateNotEntered": "Date not entered",
   "settings": "Settings",
   "calendar": "Calendar",
+  "logout": "Logout",
 
   "couldNotCreateEvent": "Could not create event.",
   "enterName": "Enter name",
