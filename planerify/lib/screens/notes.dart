@@ -32,7 +32,6 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
           _addNoteNavigator(context);
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.red.shade400,
       ),
     );
   }

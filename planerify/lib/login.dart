@@ -81,7 +81,6 @@ class _State extends State<LoginPage> {
                     height: 50,
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: RaisedButton(
-                      textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       child: Text('login').tr(),
                       onPressed: ()  async {

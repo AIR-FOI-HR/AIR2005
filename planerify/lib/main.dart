@@ -8,8 +8,6 @@ import 'package:theme_mode_handler/theme_mode_handler.dart';
 
 import 'services/MyManager.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

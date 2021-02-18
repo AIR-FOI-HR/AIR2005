@@ -107,7 +107,6 @@ class _EditNoteView extends WidgetView<EditNote, _EditNoteController> {
           state.handleButtonPressed();
         },
         child: Icon(Icons.check),
-        backgroundColor: Colors.red.shade400,
       ),
 
     );
@@ -129,8 +128,6 @@ class _EditNoteView extends WidgetView<EditNote, _EditNoteController> {
         );
    }
     return IconButton(icon: new Icon(Icons.more_vert), onPressed: null);
-
-
   }
 
   Widget _buildBody(BuildContext context) => DefaultTextStyle(

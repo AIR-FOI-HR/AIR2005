@@ -128,7 +128,6 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: Colors.red.shade400,
         onPressed: () {
           Navigator.push(
               context,
@@ -210,17 +209,11 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       events: state._events,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
-        selectedColor: Colors.red[400],
-        todayColor: Colors.red[200],
-        markersColor: Colors.black87,
         outsideDaysVisible: false,
       ),
       headerStyle: HeaderStyle(
         formatButtonShowsNext: false,
-        formatButtonTextStyle:
-        TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
-          color: Colors.red[400],
           borderRadius: BorderRadius.circular(16.0),
         ),
       ),

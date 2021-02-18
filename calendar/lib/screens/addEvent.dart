@@ -119,7 +119,6 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.note != null ? "Izmjeni bilješku" : "Dodaj bilješku"),
-        backgroundColor: Colors.cyan,
       ),
       key: state._key,
       body: Form(
@@ -155,7 +154,6 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
         decoration: InputDecoration(
             labelText: "Naziv događaja",
             filled: true,
-            fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
@@ -194,16 +192,11 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: Colors.cyan,
-        child: MaterialButton(
+        child: RaisedButton(
           onPressed: () {state.handleButtonPressed();},
           child: Text(
-            "Spremi",
-            style: state.style.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+            "Spremi"
+
           ),
         ),
       ),

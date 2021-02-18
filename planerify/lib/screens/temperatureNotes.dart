@@ -33,7 +33,6 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
           _addTemperatureNavigator(context);
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.lightBlue,
       ),
     );
   }
@@ -75,7 +74,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: Theme.of(context).primaryColor),
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: ListTile(
