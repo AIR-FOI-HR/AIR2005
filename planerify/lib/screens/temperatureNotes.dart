@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:planerify/models/temperature.dart';
 import 'package:planerify/support/widgetView.dart';
 import 'editTemperature.dart';
+import 'dailyNotifications.dart';
+import 'package:flutter/src/material/outline_button.dart';
 
 class Temperature extends StatefulWidget {
   @override
@@ -26,14 +28,25 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
       appBar: AppBar(
           title: Text('Bilješke o temperaturi')
       ),
-      body: _buildBody(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          _addTemperatureNavigator(context);
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.lightBlue,
-      ),
+      body:
+       _buildBody(context),
+            floatingActionButton: FloatingActionButton(
+            onPressed: (){
+              _addTemperatureNavigator(context);
+            },
+            child: Icon(Icons.add),
+            backgroundColor: Colors.lightBlue,
+          ),
+          bottomNavigationBar: Container(
+            height: 50,
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: OutlineButton(
+              onPressed: (){
+                _addTemperatureNotification(context);
+              },
+              child: Text('omogući dnevne obavijesti'),
+            )
+        ),
     );
   }
 
@@ -93,4 +106,13 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
         MaterialPageRoute(builder: (context) => EditTemperature(editingTemperature: temperatures))
     );
   }
+
+  _addTemperatureNotification(BuildContext context, [Temperatures temperatures])
+  {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AddNotification())
+    );
+  }
 }
+
