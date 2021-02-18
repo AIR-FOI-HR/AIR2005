@@ -181,7 +181,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
   Widget _buildDateChooser(BuildContext context)
   {
     return ListTile(
-      title: Text("Datum".tr() + "(YYYY-MM-DD)"),
+      title: Text("date".tr() + "(YYYY-MM-DD)"),
       subtitle: Text("${state._eventDate.year} - ${state._eventDate.month} - ${state._eventDate.day} ${state._eventDate.hour}: ${state._eventDate.minute}"),
       onTap:() {
         state.handleDatePicker();
