@@ -18,36 +18,38 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.14.2
-  firebase_core: ^0.5.1
-  firebase_auth: ^0.18.4+1
+  cloud_firestore: ^0.16.0
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0+1
   provider: ^4.0.2
   table_calendar: ^2.3.1
   shared_preferences: ^0.5.12+4
-  firebase_helpers: ^0.2.2
+  firebase_helpers: ^0.2.3
   flutter_datetime_picker: ^1.4.0
   rflutter_alert: ^1.1.0
   cupertino_icons: ^1.0.0
   datetime_picker_formfield: ^1.0.0
+  easy_localization: ^2.3.3+1
   intl: ^0.16.1
+
   calendar:
     path:  ../calendar
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
+dependency_overrides:
+  intl: ^0.16.1
+  path: ^1.7.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
+  assets:
+    - assets/translations/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

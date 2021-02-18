@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:planerify/screens/mainScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
@@ -49,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Register',
+                      'register'.tr(),
                       style: TextStyle(fontSize: 36.0, color: Colors.black87),
                       textAlign: TextAlign.center,
                     ),

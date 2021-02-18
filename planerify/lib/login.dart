@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/screens/mainScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 
@@ -21,7 +22,7 @@ class _State extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login'),
+          title: Text('login').tr(),
         ),
         body: Padding(
             padding: EdgeInsets.all(10),
@@ -33,7 +34,7 @@ class _State extends State<LoginPage> {
                     controller: nameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'E-mail',
+                      labelText: 'email'.tr(),
                     ),
                   ),
                 ),
@@ -44,7 +45,7 @@ class _State extends State<LoginPage> {
                     controller: passwordController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Password',
+                      labelText: 'password'.tr(),
                     ),
                   ),
                 ),
@@ -55,7 +56,7 @@ class _State extends State<LoginPage> {
                     child: RaisedButton(
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
-                      child: Text('Login'),
+                      child: Text('login').tr(),
                       onPressed: ()  {
                         String email =nameController.text;
                         String pass =passwordController.text;
