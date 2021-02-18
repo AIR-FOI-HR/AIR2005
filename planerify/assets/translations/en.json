@@ -9,5 +9,15 @@
   "loginFailedUserNotFound": "Unknown user",
   "loginFailedWrongPassword": "Wrong password",
   "unknownLoginError": "Unknown login error",
-  "invalidEmail": "Invalid e-mail address"
+  "invalidEmail": "Invalid e-mail address",
+  "addNote": "Add note",
+  "editNote": "Edit note",
+  "title": "Title",
+  "name": "Name",
+  "temperature": "Temperature",
+  "dateAndTime": "Date and time",
+  "notes": "Notes",
+  "temperatureNotes": "Temperature notes",
+  "addTemperatureNote": "Add temperature note",
+  "dateNotEntered": "Date not entered"
 }

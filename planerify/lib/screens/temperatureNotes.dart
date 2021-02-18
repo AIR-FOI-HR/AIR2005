@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:planerify/models/temperature.dart';
 import 'package:planerify/support/widgetView.dart';
 import 'editTemperature.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Temperature extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Bilješke o temperaturi')
+          title: Text('temperatureNotes').tr()
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
@@ -62,7 +63,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
     else
     {
       return Center(
-          child: Text("Unesi bilješku o temperaturi")
+          child: Text("addTemperatureNote").tr()
       );
     }
   }
@@ -80,7 +81,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
             child: ListTile(
               leading: Icon(Icons.thermostat_rounded),
                 title: Text('${temperature.sadrzajBiljeske} °C'),
-                subtitle: temperature.datum == null ? Text('Nije zapisan datum') : Text('${DateFormat("d.M.y. HH:mm").format(temperature.datum)}'),
+                subtitle: temperature.datum == null ? Text('dateNotEntered').tr() : Text('${DateFormat("d.M.y. HH:mm").format(temperature.datum)}'),
                 onTap: () => _addTemperatureNavigator(context, temperature))
         )
     );

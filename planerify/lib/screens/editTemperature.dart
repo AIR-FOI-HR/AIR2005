@@ -9,6 +9,7 @@ import 'package:planerify/models/temperature.dart';
 import 'package:planerify/support/constants.dart';
 import 'package:planerify/support/styles.dart';
 import 'package:planerify/support/widgetView.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 TextEditingController sadrzajController = TextEditingController();
 
@@ -103,8 +104,8 @@ class _EditTemperatureView
     return Scaffold(
       appBar: AppBar(
         title: state.editingTemperature == null
-            ? Text("Dodaj bilješku")
-            : Text("Izmjeni bilješku"),
+            ? Text("addNote").tr()
+            : Text("editNote").tr(),
         actions: <Widget>[_buildPopupMenu(context)],
       ),
       body: _buildBody(context),
@@ -154,9 +155,9 @@ class _EditTemperatureView
           TextField(
             controller: state.sadrzajController,
             style: kNoteTitleLight,
-            decoration: const InputDecoration(
-              hintText: 'npr. 36,4',
-              labelText: 'Temperatura',
+            decoration: new InputDecoration(
+              hintText: '36,4',
+              labelText: 'temperature'.tr(),
               border: InputBorder.none,
               counter: const SizedBox(),
             ),
@@ -172,7 +173,7 @@ class _EditTemperatureView
                     .parse(state.datumController.text) ??
                 DateTime.now(),
             decoration: InputDecoration(
-              labelText: 'Datum i vrijeme',
+              labelText: 'dateAndTime'.tr(),
               border: InputBorder.none,
             ),
             controller: state.datumController,

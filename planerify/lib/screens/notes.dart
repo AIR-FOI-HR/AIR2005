@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
 import 'package:planerify/support/widgetView.dart';
 import 'editNote.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Notes extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Bilješke')
+          title: Text('notes').tr()
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
@@ -61,7 +62,7 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
     else
     {
       return Center(
-          child: Text("Unesi bilješku")
+          child: Text("addNote").tr()
       );
     }
   }

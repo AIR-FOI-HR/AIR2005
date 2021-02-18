@@ -9,5 +9,15 @@
   "loginFailedUserNotFound": "Nepoznat korisnik",
   "loginFailedWrongPassword": "Pogrešna lozinka",
   "unknownLoginError": "Nepoznata greška kod prijave",
-  "invalidEmail": "Neispravna e-mail adresa"
+  "invalidEmail": "Neispravna e-mail adresa",
+  "addNote": "Dodaj bilješku",
+  "editNote": "Izmjeni bilješku",
+  "title": "Naslov",
+  "name": "Naziv",
+  "temperature": "Temperatura",
+  "dateAndTime": "Datum i vrijeme",
+  "notes": "Bilješke",
+  "temperatureNotes": "Bilješke o temperaturi",
+  "addTemperatureNote": "Unesi bilješku o temperaturi",
+  "dateNotEntered": "Nije zapisan datum"
 }

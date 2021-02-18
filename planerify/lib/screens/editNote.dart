@@ -6,6 +6,7 @@ import 'package:planerify/models/note.dart';
 import 'package:planerify/support/constants.dart';
 import 'package:planerify/support/styles.dart';
 import 'package:planerify/support/widgetView.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 TextEditingController nazivController = TextEditingController();
 TextEditingController sadrzajController = TextEditingController();
@@ -95,7 +96,7 @@ class _EditNoteView extends WidgetView<EditNote, _EditNoteController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: state.editingNote == null ? Text("Dodaj bilješku") : Text("Izmjeni bilješku"),
+        title: state.editingNote == null ? Text("addNote").tr() : Text("editNote").tr(),
         actions: <Widget> [
           _buildPopupMenu(context)
         ],
@@ -151,8 +152,8 @@ class _EditNoteView extends WidgetView<EditNote, _EditNoteController> {
       TextField(
         controller: state.nazivController,
         style: kNoteTitleLight,
-        decoration: const InputDecoration(
-          hintText: 'Naziv',
+        decoration: new InputDecoration(
+          hintText: 'name'.tr(),
           border: InputBorder.none,
           counter: const SizedBox(),
         ),
@@ -164,7 +165,7 @@ class _EditNoteView extends WidgetView<EditNote, _EditNoteController> {
       TextField(
         controller: state.sadrzajController,
         style: kNoteTextLargeLight,
-        decoration: const InputDecoration.collapsed(hintText: 'Naslov'),
+        decoration: new InputDecoration.collapsed(hintText: 'title'.tr()),
         maxLines: null,
         textCapitalization: TextCapitalization.sentences,
       ),
