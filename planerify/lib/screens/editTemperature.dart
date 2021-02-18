@@ -58,7 +58,7 @@ class _EditTemperatureController extends State<EditTemperature> {
     if (choice == Constants.Delete) {
       final firestoreInstance = FirebaseFirestore.instance;
       firestoreInstance
-          .collection("temperature-01")
+          .collection("temperature")
           .doc(editingTemperature.id)
           .delete()
           .then((_) {
