@@ -6,9 +6,11 @@ import 'package:calendar/res/eventFirestoreService.dart';
 import 'package:calendar/support/widgetView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:custom_switch/custom_switch.dart';
 
 class AddEventPage extends StatefulWidget {
   static const routeName = '/addEvent';
@@ -22,6 +24,9 @@ class AddEventPage extends StatefulWidget {
 }
 
 class _AddEventPageController extends State<AddEventPage> {
+
+  FlutterLocalNotificationsPlugin fltrNotification;
+
   @override
   Widget build(BuildContext context) => _AddEventPageView(this);
 
@@ -133,6 +138,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
               const SizedBox(height: 10.0),
               _buildDateChooser(context),
               const SizedBox(height: 10.0),
+            //  _buildNotificationButton(context),
               state.processing
                   ? Center(child: CircularProgressIndicator())
                   : _buildSaveButton(context),
@@ -155,6 +161,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
         decoration: InputDecoration(
             labelText: "eventName".tr(),
             filled: true,
+            fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
@@ -202,6 +209,23 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
       ),
     );
   }
+
+ /* Widget _buildNotificationButton(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child:  Container(
+          height: 50,
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: RaisedButton(
+            onPressed: _showNotification,
+            textColor: Colors.white,
+            color: Theme
+                .of(context)
+                .primaryColor,
+            child: Text('Dodaj notifikaciju'),
+        )
+    ),);
+  } */
 }
 
 

@@ -8,8 +8,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:planerify/screens/settings.dart';
 import 'package:theme_mode_handler/theme_mode_handler.dart';
 
-
-
 class LoginPage extends StatefulWidget {
 
   @override
@@ -23,6 +21,7 @@ class _State extends State<LoginPage> {
   TextEditingController errorController = TextEditingController();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
