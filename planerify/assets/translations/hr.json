@@ -19,5 +19,6 @@
   "notes": "Bilješke",
   "temperatureNotes": "Bilješke o temperaturi",
   "addTemperatureNote": "Unesi bilješku o temperaturi",
-  "dateNotEntered": "Nije zapisan datum"
+  "dateNotEntered": "Nije zapisan datum",
+  "settings": "Postavke"
 }

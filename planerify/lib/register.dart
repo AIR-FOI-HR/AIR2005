@@ -39,7 +39,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
           child: Form(
               key: _formKey,
@@ -51,7 +50,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Text(
                       'register'.tr(),
-                      style: TextStyle(fontSize: 36.0, color: Colors.black87),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -59,7 +57,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Text(
                       '$_errorMessage',
-                      style: TextStyle(fontSize: 14.0, color: Colors.red),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -154,17 +151,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         }
                       },
                       padding: EdgeInsets.all(12),
-                      color: Colors.lightGreen,
-                      child: Text('register'.tr(),
-                          style: TextStyle(color: Colors.white)),
+
+                      child: Text('register'.tr()),
                     ),
                   ),
                   Padding(
                       padding: EdgeInsets.zero,
                       child: FlatButton(
                         child: Text(
-                          'goToLogin'.tr(),
-                          style: TextStyle(color: Colors.black54),
+                          'goToLogin'.tr()
                         ),
                         onPressed: () {
                           Navigator.pop(context);

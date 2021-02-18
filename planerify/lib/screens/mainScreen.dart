@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/menuOption.dart';
+import 'package:planerify/screens/settings.dart';
 import 'package:planerify/support/menuList.dart';
 
 import 'notes.dart';
@@ -17,7 +18,24 @@ class IconButtonApp extends StatelessWidget {
     InitializeList();
     return Scaffold(
         backgroundColor: Colors.grey,
-        appBar: AppBar(title: Text("Planerify")),
+        appBar: AppBar(title: Text("Planerify"),
+          actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsPage())
+                  );
+                },
+                child: Icon(
+                  Icons.settings_applications_sharp,
+                  size: 26.0,
+                ),
+              )
+          ),
+        ],),
         body: ListView.builder(
             itemCount: listOfCards.length,
             itemBuilder: _itemBuilder,

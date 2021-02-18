@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:planerify/register.dart';
 import 'package:planerify/screens/mainScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:planerify/screens/settings.dart';
 import 'package:theme_mode_handler/theme_mode_handler.dart';
 
 
@@ -28,6 +29,23 @@ class _State extends State<LoginPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('login').tr(),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingsPage())
+                    );
+                  },
+                  child: Icon(
+                    Icons.settings_applications_sharp,
+                    size: 26.0,
+                  ),
+                )
+            ),
+          ],
         ),
         body: Padding(
             padding: EdgeInsets.all(10),

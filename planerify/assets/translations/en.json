@@ -19,5 +19,7 @@
   "notes": "Notes",
   "temperatureNotes": "Temperature notes",
   "addTemperatureNote": "Add temperature note",
-  "dateNotEntered": "Date not entered"
+  "dateNotEntered": "Date not entered",
+  "settings": "Settings"
+
 }
