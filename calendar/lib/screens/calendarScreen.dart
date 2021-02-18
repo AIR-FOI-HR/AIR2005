@@ -143,8 +143,8 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return LinearProgressIndicator();
+              //if (!snapshot.hasData)
+               // return LinearProgressIndicator();
               return IconButton(icon: Icon(Icons.save), onPressed: () {
                 var allData = [];
 

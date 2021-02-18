@@ -54,8 +54,8 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection('temperature').where("user_id", isEqualTo: user).snapshots(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return LinearProgressIndicator();
+             // if (!snapshot.hasData)
+               // return LinearProgressIndicator();
               return IconButton(icon: Icon(Icons.save), onPressed: () {
                 var allData = [];
 
