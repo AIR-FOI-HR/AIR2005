@@ -1,9 +1,8 @@
+import 'package:calendar/support/widgetView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:planerify/models/note.dart';
-import 'package:planerify/support/widgetView.dart';
 import '../models/calendar.dart';
 import 'addCalendar.dart';
 import 'calendarScreen.dart';
