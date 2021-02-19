@@ -416,7 +416,6 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         }
       },
       onSaved: (newDate) {
-        print('Spremam $newDate');
         state._eventDate = newDate;
       },
     );

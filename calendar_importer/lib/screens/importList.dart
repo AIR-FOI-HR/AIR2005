@@ -136,7 +136,7 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
                   width: 100),
             ),
             ElevatedButton(
-              child: const Text('SIGN IN'),
+              child: const Text('login').tr(),
               onPressed: state._handleSignIn,
             ),
           ],

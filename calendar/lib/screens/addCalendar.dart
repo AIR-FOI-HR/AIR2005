@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AddCalendar extends StatefulWidget {
   static const routeName = '/addEvent';
@@ -48,7 +49,7 @@ class _AddCalendarController extends State<AddCalendar> {
         await createCalendar();
         Navigator.pop(context);
       } on Exception {
-        Alert(context: context, title: "", desc: "Could not create event.")
+        Alert(context: context, title: "", desc: "couldNotCreateEvent".tr())
             .show();
       } finally {
         setState(() {
@@ -73,7 +74,7 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dodaj kalendar"),
+        title: Text("addCalendar").tr(),
       ),
       key: state._key,
       body: Form(
@@ -99,10 +100,10 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: state._title,
-        validator: (value) => (value.isEmpty) ? "Unesite naziv" : null,
+        validator: (value) => (value.isEmpty) ? "enterName".tr() : null,
         style: state.style,
         decoration: InputDecoration(
-            labelText: "Naziv kalendara",
+            labelText: "calendarName".tr(),
             filled: true
       ),
     ));
@@ -117,7 +118,7 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
             state.handleButtonPressed();
           },
           child: Text(
-            "Spremi"
+            "save".tr()
           ),
         ),
       ),

@@ -84,7 +84,7 @@ class _AddEventPageController extends State<AddEventPage> {
           await createEvent();
           Navigator.pop(context);
         } on Exception {
-          Alert(context: context, title: "", desc: "Could not create event.")
+          Alert(context: context, title: "", desc: "couldNotCreateEvent".tr())
               .show();
         } finally {
           setState(() {

@@ -46,5 +46,8 @@
   "sourceList": "Popis izvora",
   "holidays": "Praznici",
   "ok": "U redu",
-  "userData": "Podaci o korisničkom računu"
+  "userData": "Podaci o korisničkom računu",
+  "couldNotCreateEvent": "Greška prilikom izrade događaja.",
+  "addCalendar": "Dodaj kalendar",
+  "calendarName": "Ime kalendara"
 }

@@ -46,6 +46,9 @@
   "sourceList": "List of sources",
   "holidays": "Holidays",
   "ok": "OK",
-  "userData": "User data"
+  "userData": "User data",
+  "couldNotCreateEvent": "Could not create event.",
+  "addCalendar": "Add calendar",
+  "calendarName": "Calendar name"
 
 }
