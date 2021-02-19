@@ -35,7 +35,6 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
               context, MaterialPageRoute(builder: (context) => AddCalendar()));
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.red.shade400,
       ),
     );
   }
@@ -75,7 +74,7 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
+            border: Border.all(color: Theme.of(context).primaryColor),
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: ListTile(

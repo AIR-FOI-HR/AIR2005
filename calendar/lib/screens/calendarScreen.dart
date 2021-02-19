@@ -160,7 +160,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       appBar: AppBar(
         title: Text("planner").tr(),
         actionsIconTheme:
-            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+            IconThemeData(size: 30.0, opacity: 10.0),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
@@ -219,7 +219,6 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: Colors.red.shade400,
         onPressed: () {
           Navigator.push(
               context,

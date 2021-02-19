@@ -217,7 +217,6 @@ class _ImportListView extends WidgetView<ImportList, _ImportListController> {
                         state._handleSignOut();
                         Navigator.pop(context);
                       },
-                      color: Colors.red.shade300,
                       child: Text("logout").tr())
                 ],
               )

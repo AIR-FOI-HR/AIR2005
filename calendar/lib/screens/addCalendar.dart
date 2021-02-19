@@ -74,7 +74,6 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Dodaj kalendar"),
-        backgroundColor: Colors.cyan,
       ),
       key: state._key,
       body: Form(
@@ -104,29 +103,21 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
         style: state.style,
         decoration: InputDecoration(
             labelText: "Naziv kalendara",
-            filled: true,
-            fillColor: Colors.white,
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            filled: true
       ),
-    );
+    ));
   }
 
   Widget _buildSaveButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: Colors.cyan,
-        child: MaterialButton(
+        child: RaisedButton(
           onPressed: () {
             state.handleButtonPressed();
           },
           child: Text(
-            "Spremi",
-            style: state.style
-                .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            "Spremi"
           ),
         ),
       ),
