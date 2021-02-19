@@ -186,7 +186,7 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
             state.handlePopupMenuChoice();
           },),
           StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state._user).snapshots(),
+            stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state.calendarId).snapshots(),
             builder: (context, snapshot) {
               //if (!snapshot.hasData)
                // return LinearProgressIndicator();
