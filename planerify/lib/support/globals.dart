@@ -1,4 +1,3 @@
-class Theme
-{
+class Theme {
   static bool theme = false;
 }

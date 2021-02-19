@@ -1,12 +1,13 @@
 import 'package:calendar/support/widgetView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../models/calendar.dart';
 import 'addCalendar.dart';
 import 'calendarScreen.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class Calendars extends StatefulWidget {
   @override
@@ -31,8 +32,7 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddCalendar()));
+              context, MaterialPageRoute(builder: (context) => AddCalendar()));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.red.shade400,
@@ -45,11 +45,12 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
     var user = _firebaseAuth.currentUser.uid;
     //database
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('calendar').where(
-          "user_id", isEqualTo: user).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('calendar')
+          .where("user_id", isEqualTo: user)
+          .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return LinearProgressIndicator();
+        if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.docs);
       },
     );
@@ -59,14 +60,11 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
     if (snapshot.isNotEmpty) {
       return ListView(
         padding: const EdgeInsets.only(top: 20.0),
-        children: snapshot.map((data) => _buildListItem(context, data))
-            .toList(),
+        children:
+            snapshot.map((data) => _buildListItem(context, data)).toList(),
       );
-    }
-    else {
-      return Center(
-          child: Text("Nema kalendara, unesite novi kalendar")
-      );
+    } else {
+      return Center(child: Text("Nema kalendara, unesite novi kalendar"));
     }
   }
 
@@ -82,26 +80,16 @@ class _NotesView extends WidgetView<Calendars, _CalendarController> {
           ),
           child: ListTile(
             title: Text(cal.nazivKalendara),
-            onTap: () =>
-            {
+            onTap: () => {
               Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CalendarView(kalendarId: cal.id,)
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalendarView(
+                          kalendarId: cal.id,
+                        )),
               ),
-            ),
-
-
-
             },
           ),
-        )
-
-    );
+        ));
   }
 }
-
-
-
-
-
-

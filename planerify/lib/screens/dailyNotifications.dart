@@ -1,11 +1,9 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:planerify/support/constants.dart';
-import 'dart:io' show Platform;
 import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:planerify/screens/editTemperature.dart';
+import 'package:planerify/support/constants.dart';
 
 class AddNotification extends StatefulWidget {
   @override
@@ -19,14 +17,13 @@ class _AddNotificationState extends State {
   String task;
   int val;
 
-
   @override
   void initState() {
     super.initState();
     var androidInitilize = new AndroidInitializationSettings('logo');
     var iOSinitilize = new IOSInitializationSettings();
     var initilizationsSettings =
-    new InitializationSettings(androidInitilize, iOSinitilize);
+        new InitializationSettings(androidInitilize, iOSinitilize);
     fltrNotification = new FlutterLocalNotificationsPlugin();
     fltrNotification.initialize(initilizationsSettings,
         onSelectNotification: notificationSelected);
@@ -41,15 +38,14 @@ class _AddNotificationState extends State {
         importance: Importance.Max);
     var iSODetails = new IOSNotificationDetails();
     var generalNotificationDetails =
-    new NotificationDetails(androidDetails, iSODetails);
+        new NotificationDetails(androidDetails, iSODetails);
 
-   await fltrNotification.showDailyAtTime(
-        0, "Planerify", "Unesi tjelesnu temperaturu", time, generalNotificationDetails);
-
+    await fltrNotification.showDailyAtTime(0, "Planerify",
+        "Unesi tjelesnu temperaturu", time, generalNotificationDetails);
   }
 
   Future notificationSelected(String payload) async {
-   /* Navigator.push(
+    /* Navigator.push(
         context,
         MaterialPageRoute(builder: (context) { return EditTemperature();}
         )); */
@@ -68,61 +64,57 @@ class _AddNotificationState extends State {
         title: Text('Dodavanje obavijesti'),
         actions: <Widget>[_buildPopupMenu(context)],
       ),
-        body:Padding(
+      body: Padding(
           padding: EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
               DateTimeField(
                 controller: textEditingController,
-                  format: DateFormat('HH:mm'),
-                  onShowPicker: (context, currentValue) async {
-                    final time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.fromDateTime(
-                          currentValue ?? DateTime.now()),
-                    );
-                    return DateTimeField.convert(time);
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Vrijeme',
-                    border: InputBorder.none,
-                  ),
-                 ),
+                format: DateFormat('HH:mm'),
+                onShowPicker: (context, currentValue) async {
+                  final time = await showTimePicker(
+                    context: context,
+                    initialTime:
+                        TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                  );
+                  return DateTimeField.convert(time);
+                },
+                decoration: InputDecoration(
+                  labelText: 'Vrijeme',
+                  border: InputBorder.none,
+                ),
+              ),
               Container(
                   height: 50,
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: RaisedButton(
-                    onPressed:
-                      _showNotification,
+                    onPressed: _showNotification,
                     textColor: Colors.white,
-                    color: Theme
-                        .of(context)
-                        .primaryColor,
+                    color: Theme.of(context).primaryColor,
                     child: Text('Dodaj obavijest'),
                   )),
             ],
-          )
-      ),
+          )),
     );
   }
 
   void choiceAction(String choice) {
     if (choice == Constants.Delete) {
-       cancelNotification();
+      cancelNotification();
     }
   }
 
   Widget _buildPopupMenu(BuildContext context) {
-      return PopupMenuButton<String>(
-        onSelected: choiceAction,
-        itemBuilder: (BuildContext context) {
-          return Constants.choices.map((String choice) {
-            return PopupMenuItem<String>(
-              value: choice,
-              child: ListTile(title: Text(choice)),
-            );
-          }).toList();
-        },
-      );
+    return PopupMenuButton<String>(
+      onSelected: choiceAction,
+      itemBuilder: (BuildContext context) {
+        return Constants.choices.map((String choice) {
+          return PopupMenuItem<String>(
+            value: choice,
+            child: ListTile(title: Text(choice)),
+          );
+        }).toList();
+      },
+    );
   }
 }

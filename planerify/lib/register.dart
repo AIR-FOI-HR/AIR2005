@@ -1,14 +1,15 @@
 // Adapted from https://github.com/kevinjnguyen/flutter-firebase-registration-ui
 
-import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:planerify/screens/mainScreen.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:planerify/screens/settings.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
+
   @override
   _RegisterPageState createState() => new _RegisterPageState();
 }
@@ -47,17 +48,14 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SettingsPage())
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()));
                 },
                 child: Icon(
                   Icons.settings_applications_sharp,
                   size: 26.0,
                 ),
-              )
-          ),
+              )),
         ],
       ),
       body: Center(
@@ -145,26 +143,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.only(top: 10.0),
                     child: RaisedButton(
                       onPressed: () {
-
                         if (_formKey.currentState.validate()) {
                           _firebaseAuth
                               .createUserWithEmailAndPassword(
-                              email: emailTextEditController.text,
-                              password: passwordTextEditController.text)
+                                  email: emailTextEditController.text,
+                                  password: passwordTextEditController.text)
                               .then((userInfoValue) {
-                             //Navigator.of(context).pushNamed(HomePage.tag);
+                            //Navigator.of(context).pushNamed(HomePage.tag);
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => IconButtonApp())
-                            );
-                          })
-                              .catchError((onError) {
+                                MaterialPageRoute(
+                                    builder: (context) => IconButtonApp()));
+                          }).catchError((onError) {
                             processError(onError);
                           });
                         }
                       },
                       padding: EdgeInsets.all(12),
-
                       child: Text('register'.tr()),
                     ),
                   )

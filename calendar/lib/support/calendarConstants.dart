@@ -1,8 +1,5 @@
-class Constants{
-  static const String Import= "Uvezi kalendar";
+class Constants {
+  static const String Import = "Uvezi kalendar";
 
-  static const List<String> choices = <String>[
-    Import
-  ];
-
+  static const List<String> choices = <String>[Import];
 }

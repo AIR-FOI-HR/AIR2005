@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planerify/models/note.dart';
 import 'package:planerify/support/widgetView.dart';
+
 import 'editNote.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class Notes extends StatefulWidget {
   @override
@@ -23,12 +24,10 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('notes').tr()
-      ),
+      appBar: AppBar(title: Text('notes').tr()),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           _addNoteNavigator(context);
         },
         child: Icon(Icons.add),
@@ -41,28 +40,26 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
     var user = _firebaseAuth.currentUser.uid;
     //database
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('notes').where("user_id", isEqualTo: user).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('notes')
+          .where("user_id", isEqualTo: user)
+          .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return LinearProgressIndicator();
+        if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.docs);
       },
     );
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    if(snapshot.isNotEmpty)
-    {
+    if (snapshot.isNotEmpty) {
       return ListView(
         padding: const EdgeInsets.only(top: 20.0),
-        children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+        children:
+            snapshot.map((data) => _buildListItem(context, data)).toList(),
       );
-    }
-    else
-    {
-      return Center(
-          child: Text("addNote").tr()
-      );
+    } else {
+      return Center(child: Text("addNote").tr());
     }
   }
 
@@ -78,22 +75,11 @@ class _NotesView extends WidgetView<Notes, _NotesController> {
             ),
             child: ListTile(
                 title: Text(note.nazivBiljeske),
-                onTap: () => _addNoteNavigator(context, note))
-        )
-    );
+                onTap: () => _addNoteNavigator(context, note))));
   }
 
-  _addNoteNavigator(BuildContext context, [Note note])
-  {
-    Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => EditNote(editingNote: note))
-    );
+  _addNoteNavigator(BuildContext context, [Note note]) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => EditNote(editingNote: note)));
   }
 }
-
-
-
-
-
-

@@ -1,33 +1,27 @@
 //implementation was based on project found on https://github.com/lohanidamodar/flutter_calendar
 
+import 'dart:io';
+
+import 'package:calendar/models/calendar.dart';
 import 'package:calendar/models/event.dart';
-import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:calendar/screens/viewEvent.dart';
-import 'package:calendar/support/calendarConstants.dart';
 import 'package:calendar/support/widgetView.dart';
 import 'package:calendar_importer/screens/importList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-
 import 'package:table_calendar/table_calendar.dart';
 
-
 import 'addEvent.dart';
-import 'addCalendar.dart';
-import 'package:calendar/models/calendar.dart';
-
 
 class CalendarView extends StatefulWidget {
   final String kalendarId;
+
   CalendarView({Key key, @required this.kalendarId}) : super(key: key);
 
   static const routeName = '/calendarScreen';
@@ -41,13 +35,11 @@ class _CalendarController extends State<CalendarView> {
 
   _CalendarController(this.calendarId);
 
-
   @override
   Widget build(BuildContext context) {
     print(calendarId);
-    return _CalendarView(this,calendarId);
+    return _CalendarView(this, calendarId);
   }
-
 
   CalendarController _calendarController;
   Map<DateTime, List<dynamic>> _events;
@@ -60,6 +52,7 @@ class _CalendarController extends State<CalendarView> {
   DateTime _eventDate;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   var _user;
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +61,7 @@ class _CalendarController extends State<CalendarView> {
     _selectedEvents = [];
     _selectedDate = DateTime.now();
     _name = "";
-    _description ="";
+    _description = "";
     _eventDate = DateTime.now();
     _user = _firebaseAuth.currentUser.uid;
   }
@@ -80,18 +73,16 @@ class _CalendarController extends State<CalendarView> {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       //Dodat provjeru ako je idUsera na eventu jednak idKalendara
-      DateTime date = DateTime(event.eventDate.year, event.eventDate.month, event.eventDate.day,12);
-      if(data[date] == null)
-        data[date] = [];
+      DateTime date = DateTime(
+          event.eventDate.year, event.eventDate.month, event.eventDate.day, 12);
+      if (data[date] == null) data[date] = [];
       print(event);
       data[date].add(event);
     });
     return data;
   }
 
-
-  void handleSavedButton()
-  {
+  void handleSavedButton() {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -113,8 +104,7 @@ class _CalendarController extends State<CalendarView> {
     setState(() {
       _selectedEvents = events;
       _selectedDate = day;
-      }
-    );
+    });
   }
 
   void handleEventSelected(event) {
@@ -124,9 +114,8 @@ class _CalendarController extends State<CalendarView> {
     });
   }
 
-  void handleDeleteButton()
-  {
-    setState((){
+  void handleDeleteButton() {
+    setState(() {
       FirebaseFirestore.instance
           .collection('events')
           .doc(_eventForEditing.id)
@@ -134,20 +123,21 @@ class _CalendarController extends State<CalendarView> {
     });
   }
 
-  void handlePopupMenuChoice()
-  {
-
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ImportList(calendarId: calendarId,))
-      );
-
+  void handlePopupMenuChoice() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ImportList(
+                  calendarId: calendarId,
+                )));
   }
 }
 
 class _CalendarView extends WidgetView<Calendar, _CalendarController> {
   final String calendarId;
-  _CalendarView(_CalendarController state,this.calendarId) : super(state);
+
+  _CalendarView(_CalendarController state, this.calendarId) : super(state);
+
   Future<File> writeData(String data) async {
     final dir = await DownloadsPathProvider.downloadsDirectory;
     final file = File('${dir.path}/kalendar_dogadjaji.txt');
@@ -155,13 +145,13 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     if (await file.exists()) {
       await file.delete();
       await file.create();
-    }
-    else {
+    } else {
       file.create();
     }
 
     return file.writeAsString(data);
   }
+
   @override
   Widget build(BuildContext context) {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -169,49 +159,63 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("planner").tr(),
-          actionsIconTheme: IconThemeData(
-              size: 30.0,
-              color: Colors.white,
-              opacity: 10.0
-          ),
+        actionsIconTheme:
+            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
         actions: [
-          IconButton(icon: Icon(Icons.delete),onPressed: (){
-            FirebaseFirestore.instance
-                .collection('calendar')
-                .doc(calendarId)
-                .delete();
-            Navigator.of(context).pop();
-          },),
-          IconButton(icon: Icon(Icons.transit_enterexit),onPressed: (){
-            state.handlePopupMenuChoice();
-          },),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              FirebaseFirestore.instance
+                  .collection('calendar')
+                  .doc(calendarId)
+                  .delete();
+              Navigator.of(context).pop();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.transit_enterexit),
+            onPressed: () {
+              state.handlePopupMenuChoice();
+            },
+          ),
           StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state.calendarId).snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection("events")
+                .where("user_id", isEqualTo: state.calendarId)
+                .snapshots(),
             builder: (context, snapshot) {
               //if (!snapshot.hasData)
-               // return LinearProgressIndicator();
-              return IconButton(icon: Icon(Icons.save), onPressed: () {
-                var allData = [];
+              // return LinearProgressIndicator();
+              return IconButton(
+                icon: Icon(Icons.save),
+                onPressed: () {
+                  var allData = [];
 
-                for (var doc in snapshot.data.docs) {
-                  EventModel data = EventModel.fromMap(doc.data());
-                  DateTime date = data.eventDate;
-                  allData.add('${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data.title}\n${data.description}\n');
-                }
+                  for (var doc in snapshot.data.docs) {
+                    EventModel data = EventModel.fromMap(doc.data());
+                    DateTime date = data.eventDate;
+                    allData.add(
+                        '${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data.title}\n${data.description}\n');
+                  }
 
-                var dataToSave = allData.join('\n');
+                  var dataToSave = allData.join('\n');
 
-                writeData(dataToSave);
+                  writeData(dataToSave);
 
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Podaci spremljeni!')));
-              } ,);
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('Podaci spremljeni!')));
+                },
+              );
             },
           )
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("events").where("user_id", isEqualTo: state.calendarId).snapshots(),
-        builder:_buildContent,
+        stream: FirebaseFirestore.instance
+            .collection("events")
+            .where("user_id", isEqualTo: state.calendarId)
+            .snapshots(),
+        builder: _buildContent,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -219,23 +223,25 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddEventPage(calendarId: calendarId,)));
+              MaterialPageRoute(
+                  builder: (context) => AddEventPage(
+                        calendarId: calendarId,
+                      )));
           _buildEventList(context);
         },
       ),
     );
   }
 
-
-  Widget _buildContent(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)
-  {
-    if(snapshot.hasData){
+  Widget _buildContent(
+      BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.hasData) {
       List<EventModel> allEvents = [];
-      snapshot.data.docs.forEach((element) => allEvents.add(EventModel.fromDS(element.id,element.data())));
-      if(allEvents.isNotEmpty){
+      snapshot.data.docs.forEach((element) =>
+          allEvents.add(EventModel.fromDS(element.id, element.data())));
+      if (allEvents.isNotEmpty) {
         state._events = state._groupEvents(allEvents);
-      }
-      else {
+      } else {
         state._events = {};
         state._selectedEvents = [];
       }
@@ -246,45 +252,46 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
         _buildTableCalendar(context),
         Expanded(child: _buildEventList(context)),
       ],
-
     );
   }
+
   Widget _buildEventList(BuildContext context) {
     return ListView(
       children: state._selectedEvents
           .map((event) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.8),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        margin:
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(
-          title: Text(event.title),
-          trailing: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center ,
-            spacing: 12, // space between two icons
-            children: <Widget>[
-              Text('${TimeOfDay.fromDateTime(event.eventDate).format(context)} '),
-              IconButton(
-                icon: new Icon(Icons.edit),
-                onPressed: (){
-                  state.handleEventSelected(event);
-                  _showEventEditDialog(context);
-                },
-              ),
-            ],
-          ),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => EventDetailsPage(
-                      event: event,
-                    )));
-          },
-        ),
-      ))
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.8),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: ListTile(
+                  title: Text(event.title),
+                  trailing: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 12, // space between two icons
+                    children: <Widget>[
+                      Text(
+                          '${TimeOfDay.fromDateTime(event.eventDate).format(context)} '),
+                      IconButton(
+                        icon: new Icon(Icons.edit),
+                        onPressed: () {
+                          state.handleEventSelected(event);
+                          _showEventEditDialog(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => EventDetailsPage(
+                                  event: event,
+                                )));
+                  },
+                ),
+              ))
           .toList(),
     );
   }
@@ -292,74 +299,68 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
   Widget _buildTableCalendar(BuildContext context) {
     return TableCalendar(
         locale: context.locale.languageCode,
-      calendarController: state._calendarController,
-      events: state._events,
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      calendarStyle: CalendarStyle(
-        outsideDaysVisible: false,
-      ),
-      headerStyle: HeaderStyle(
-        formatButtonShowsNext: false,
-        formatButtonDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.0),
+        calendarController: state._calendarController,
+        events: state._events,
+        startingDayOfWeek: StartingDayOfWeek.monday,
+        calendarStyle: CalendarStyle(
+          outsideDaysVisible: false,
         ),
-      ),
-      onDaySelected: (day, events, holidays){
-        state.handleDaySelected(events,day);
-        }
-    );
+        headerStyle: HeaderStyle(
+          formatButtonShowsNext: false,
+          formatButtonDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+        ),
+        onDaySelected: (day, events, holidays) {
+          state.handleDaySelected(events, day);
+        });
   }
 
   void _showEventEditDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('editEvent').tr(),
-          content: Form(
-            key: state._formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildTitleBox(context),
-                SizedBox(height: 10),
-                _buildDescriptionBox(context),
-                SizedBox(height: 10),
-                _buildDateTimePicker(context),
+              title: Text('editEvent').tr(),
+              content: Form(
+                key: state._formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildTitleBox(context),
+                    SizedBox(height: 10),
+                    _buildDescriptionBox(context),
+                    SizedBox(height: 10),
+                    _buildDateTimePicker(context),
+                  ],
+                ),
+              ),
+              actions: [
+                FlatButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('cancel').tr()),
+                FlatButton(
+                    onPressed: () {
+                      state.handleSavedButton();
+                      Navigator.pop(context);
+                    },
+                    child: Text('save').tr()),
+                FlatButton(
+                    onPressed: () {
+                      state.handleDeleteButton();
+
+                      Navigator.pop(context);
+                    },
+                    child: Text("delete").tr())
               ],
-            ),
-          ),
-          actions: [
-            FlatButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('cancel').tr()),
-            FlatButton(
-                onPressed: () {
-                  state.handleSavedButton();
-                  Navigator.pop(context);
-                },
-                child: Text('save').tr())
-            ,
-            FlatButton(
-                onPressed: (){
-                  state.handleDeleteButton();
-
-                  Navigator.pop(context);
-                },
-                child: Text("delete").tr()
-            )
-          ],
-        ));
-
+            ));
   }
 
-  Widget _buildTitleBox(BuildContext context)
-  {
+  Widget _buildTitleBox(BuildContext context) {
     print('titleBox start');
     return TextFormField(
       initialValue: state._eventForEditing.title,
-      decoration: InputDecoration(
-          filled: true,labelText: 'name'.tr()),
+      decoration: InputDecoration(filled: true, labelText: 'name'.tr()),
       onSaved: (newValue) {
         state._name = newValue;
       },
@@ -372,12 +373,10 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     );
   }
 
-  Widget _buildDescriptionBox(BuildContext context)
-  {
+  Widget _buildDescriptionBox(BuildContext context) {
     return TextFormField(
       initialValue: state._eventForEditing.description,
-      decoration: InputDecoration(
-          filled: true,labelText: 'description'.tr()),
+      decoration: InputDecoration(filled: true, labelText: 'description'.tr()),
       onSaved: (newValue) {
         state._description = newValue;
       },
@@ -390,14 +389,14 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     );
   }
 
-  Widget _buildDateTimePicker(BuildContext context)
-  {
+  Widget _buildDateTimePicker(BuildContext context) {
     return DateTimeField(
       format: DateFormat('dd.MM.yyyy. H:mm'),
       initialValue: state._eventForEditing.eventDate,
       decoration: InputDecoration(
         filled: true,
-        labelText: 'dateAndTime',),
+        labelText: 'dateAndTime',
+      ),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
           context: context,
@@ -424,9 +423,3 @@ class _CalendarView extends WidgetView<Calendar, _CalendarController> {
     );
   }
 }
-
-
-
-
-
-

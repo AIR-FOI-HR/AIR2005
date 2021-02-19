@@ -1,18 +1,14 @@
 //implementation based on https://github.com/lohanidamodar/flutter_calendar
 //and https://pub.dev/packages/flutter_datetime_picker
 
-import 'package:calendar/models/event.dart';
 import 'package:calendar/support/widgetView.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddCalendar extends StatefulWidget {
   static const routeName = '/addEvent';
-
-
 
   @override
   _AddCalendarController createState() => _AddCalendarController();
@@ -51,25 +47,22 @@ class _AddCalendarController extends State<AddCalendar> {
       try {
         await createCalendar();
         Navigator.pop(context);
-      }
-      on Exception{
-        Alert(context: context, title: "", desc: "Could not create event.").show();
-      }
-      finally{
+      } on Exception {
+        Alert(context: context, title: "", desc: "Could not create event.")
+            .show();
+      } finally {
         setState(() {
           processing = false;
         });
       }
-
     }
   }
 
   Future createCalendar() async {
-    _firestoreInstance.collection("calendar").add(
-        {
-          "Naziv": _title.text,
-          "user_id": _user,
-        });
+    _firestoreInstance.collection("calendar").add({
+      "Naziv": _title.text,
+      "user_id": _user,
+    });
   }
 }
 
@@ -102,25 +95,24 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
     );
   }
 
-  Widget _buildTitleBox(BuildContext context)
-  {
+  Widget _buildTitleBox(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: state._title,
-        validator: (value) =>
-        (value.isEmpty) ? "Unesite naziv" : null,
+        validator: (value) => (value.isEmpty) ? "Unesite naziv" : null,
         style: state.style,
         decoration: InputDecoration(
             labelText: "Naziv kalendara",
             filled: true,
             fillColor: Colors.white,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
   }
 
-  Widget _buildSaveButton(BuildContext context){
+  Widget _buildSaveButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Material(
@@ -128,17 +120,16 @@ class _AddCalendarView extends WidgetView<AddCalendar, _AddCalendarController> {
         borderRadius: BorderRadius.circular(30.0),
         color: Colors.cyan,
         child: MaterialButton(
-          onPressed: () {state.handleButtonPressed();},
+          onPressed: () {
+            state.handleButtonPressed();
+          },
           child: Text(
             "Spremi",
-            style: state.style.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+            style: state.style
+                .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
       ),
     );
   }
 }
-
-

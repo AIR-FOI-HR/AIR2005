@@ -1,4 +1,4 @@
-class CalendarSource{
+class CalendarSource {
   String url;
   String name;
 

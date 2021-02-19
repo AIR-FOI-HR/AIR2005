@@ -1,18 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/outline_button.dart';
 import 'package:intl/intl.dart';
 import 'package:planerify/models/temperature.dart';
 import 'package:planerify/support/widgetView.dart';
-import 'editTemperature.dart';
+
 import 'dailyNotifications.dart';
-import 'package:flutter/src/material/outline_button.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'editTemperature.dart';
 
 class Temperature extends StatefulWidget {
   @override
@@ -34,8 +34,7 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
     if (await file.exists()) {
       await file.delete();
       await file.create();
-    }
-    else {
+    } else {
       file.create();
     }
 
@@ -48,52 +47,56 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
     var user = _firebaseAuth.currentUser.uid;
     return Scaffold(
       appBar: AppBar(
-          title: Text('temperatureNotes').tr(),
-
+        title: Text('temperatureNotes').tr(),
         actions: [
           StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('temperature').where("user_id", isEqualTo: user).snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('temperature')
+                .where("user_id", isEqualTo: user)
+                .snapshots(),
             builder: (context, snapshot) {
-             // if (!snapshot.hasData)
-               // return LinearProgressIndicator();
-              return IconButton(icon: Icon(Icons.save), onPressed: () {
-                var allData = [];
+              // if (!snapshot.hasData)
+              // return LinearProgressIndicator();
+              return IconButton(
+                icon: Icon(Icons.save),
+                onPressed: () {
+                  var allData = [];
 
-                for (var doc in snapshot.data.docs) {
-                  var data = doc.data();
-                  DateTime date = DateTime.parse(data['datum']);
-                  allData.add('${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data['sadrzaj']} °C');
-                }
+                  for (var doc in snapshot.data.docs) {
+                    var data = doc.data();
+                    DateTime date = DateTime.parse(data['datum']);
+                    allData.add(
+                        '${date.day.toString().padLeft(2, ' ')}.${date.month.toString().padLeft(2, ' ')}.${date.year}. ${data['sadrzaj']} °C');
+                  }
 
-                var dataToSave = allData.join('\n');
+                  var dataToSave = allData.join('\n');
 
-                writeData(dataToSave);
+                  writeData(dataToSave);
 
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Podaci spremljeni!')));
-              } ,);
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('Podaci spremljeni!')));
+                },
+              );
             },
           )
         ],
       ),
-      body:
-       _buildBody(context),
-            floatingActionButton: FloatingActionButton(
-            onPressed: (){
-              _addTemperatureNavigator(context);
+      body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _addTemperatureNavigator(context);
+        },
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: Container(
+          height: 50,
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: OutlineButton(
+            onPressed: () {
+              _addTemperatureNotification(context);
             },
-            child: Icon(Icons.add),
-
-          ),
-          bottomNavigationBar: Container(
-            height: 50,
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: OutlineButton(
-              onPressed: (){
-                _addTemperatureNotification(context);
-              },
-              child: Text("enableNotifications").tr(),
-            )
-        ),
+            child: Text("enableNotifications").tr(),
+          )),
     );
   }
 
@@ -102,28 +105,26 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
     var user = _firebaseAuth.currentUser.uid;
     //database
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('temperature').where("user_id", isEqualTo: user).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('temperature')
+          .where("user_id", isEqualTo: user)
+          .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return LinearProgressIndicator();
+        if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.docs);
       },
     );
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    if(snapshot.isNotEmpty)
-    {
+    if (snapshot.isNotEmpty) {
       return ListView(
         padding: const EdgeInsets.only(top: 20.0),
-        children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+        children:
+            snapshot.map((data) => _buildListItem(context, data)).toList(),
       );
-    }
-    else
-    {
-      return Center(
-          child: Text("addTemperatureNote").tr()
-      );
+    } else {
+      return Center(child: Text("addTemperatureNote").tr());
     }
   }
 
@@ -138,28 +139,26 @@ class _TemperatureView extends WidgetView<Temperature, _TemperatureController> {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: ListTile(
-              leading: Icon(Icons.thermostat_rounded),
+                leading: Icon(Icons.thermostat_rounded),
                 title: Text('${temperature.sadrzajBiljeske} °C'),
-                subtitle: temperature.datum == null ? Text('dateNotEntered').tr() : Text('${DateFormat("d.M.y. HH:mm").format(temperature.datum)}'),
-                onTap: () => _addTemperatureNavigator(context, temperature))
-        )
-    );
+                subtitle: temperature.datum == null
+                    ? Text('dateNotEntered').tr()
+                    : Text(
+                        '${DateFormat("d.M.y. HH:mm").format(temperature.datum)}'),
+                onTap: () => _addTemperatureNavigator(context, temperature))));
   }
 
-  _addTemperatureNavigator(BuildContext context, [Temperatures temperatures])
-  {
+  _addTemperatureNavigator(BuildContext context, [Temperatures temperatures]) {
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => EditTemperature(editingTemperature: temperatures))
-    );
+        MaterialPageRoute(
+            builder: (context) =>
+                EditTemperature(editingTemperature: temperatures)));
   }
 
-  _addTemperatureNotification(BuildContext context, [Temperatures temperatures])
-  {
+  _addTemperatureNotification(BuildContext context,
+      [Temperatures temperatures]) {
     Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AddNotification())
-    );
+        context, MaterialPageRoute(builder: (context) => AddNotification()));
   }
 }
-

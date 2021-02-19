@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:planerify/models/temperature.dart';
 import 'package:planerify/support/constants.dart';
 import 'package:planerify/support/styles.dart';
 import 'package:planerify/support/widgetView.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 TextEditingController sadrzajController = TextEditingController();
 
@@ -46,7 +45,8 @@ class _EditTemperatureController extends State<EditTemperature> {
     print("editingTemperature");
     if (editingTemperature != null) {
       sadrzajController.text = editingTemperature.sadrzajBiljeske;
-      datumController.text = DateFormat('dd.MM.yyyy. H:mm').format(editingTemperature.datum ?? DateTime.now());
+      datumController.text = DateFormat('dd.MM.yyyy. H:mm')
+          .format(editingTemperature.datum ?? DateTime.now());
     } else {
       sadrzajController.clear();
       datumController.clear();
@@ -169,9 +169,11 @@ class _EditTemperatureView
           DateTimeField(
             format: DateFormat('dd.MM.yyyy. H:mm'),
             style: kNoteTitleLight,
-            initialValue: state.datumController.text.isEmpty ? DateTime.now() : DateFormat('dd.MM.yyyy. H:mm')
-                    .parse(state.datumController.text) ??
-                DateTime.now(),
+            initialValue: state.datumController.text.isEmpty
+                ? DateTime.now()
+                : DateFormat('dd.MM.yyyy. H:mm')
+                        .parse(state.datumController.text) ??
+                    DateTime.now(),
             decoration: InputDecoration(
               labelText: 'dateAndTime'.tr(),
               border: InputBorder.none,

@@ -4,13 +4,12 @@
 import 'package:calendar/models/event.dart';
 import 'package:calendar/res/eventFirestoreService.dart';
 import 'package:calendar/support/widgetView.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:custom_switch/custom_switch.dart';
 
 class AddEventPage extends StatefulWidget {
   static const routeName = '/addEvent';
@@ -25,7 +24,6 @@ class AddEventPage extends StatefulWidget {
 }
 
 class _AddEventPageController extends State<AddEventPage> {
-
   FlutterLocalNotificationsPlugin fltrNotification;
 
   @override
@@ -44,8 +42,10 @@ class _AddEventPageController extends State<AddEventPage> {
   @override
   void initState() {
     super.initState();
-    _title = TextEditingController(text: widget.note != null ? widget.note.title : "");
-    _description = TextEditingController(text:  widget.note != null ? widget.note.description : "");
+    _title = TextEditingController(
+        text: widget.note != null ? widget.note.title : "");
+    _description = TextEditingController(
+        text: widget.note != null ? widget.note.description : "");
     _eventDate = DateTime.now();
     processing = false;
     _user = _firebaseAuth.currentUser.uid;
@@ -58,18 +58,17 @@ class _AddEventPageController extends State<AddEventPage> {
     super.dispose();
   }
 
-  void handleDatePicker() async{
+  void handleDatePicker() async {
     DateTime pickedDateTime = await DatePicker.showDateTimePicker(context,
-    showTitleActions: true,
-    minTime: DateTime(_eventDate.year-5),
-    maxTime: DateTime(_eventDate.year+5),
-    currentTime: DateTime.now(),
-    locale: LocaleType.en);
-    if(pickedDateTime != null) {
+        showTitleActions: true,
+        minTime: DateTime(_eventDate.year - 5),
+        maxTime: DateTime(_eventDate.year + 5),
+        currentTime: DateTime.now(),
+        locale: LocaleType.en);
+    if (pickedDateTime != null) {
       setState(() {
         _eventDate = pickedDateTime;
-       }
-      );
+      });
     }
   }
 
@@ -78,18 +77,16 @@ class _AddEventPageController extends State<AddEventPage> {
       setState(() {
         processing = true;
       });
-      if(widget.note != null) {
+      if (widget.note != null) {
         await updateEvent();
-      }
-      else {
+      } else {
         try {
           await createEvent();
           Navigator.pop(context);
-        }
-         on Exception{
-               Alert(context: context, title: "", desc: "Could not create event.").show();
-        }
-        finally{
+        } on Exception {
+          Alert(context: context, title: "", desc: "Could not create event.")
+              .show();
+        } finally {
           setState(() {
             processing = false;
           });
@@ -99,7 +96,7 @@ class _AddEventPageController extends State<AddEventPage> {
   }
 
   Future createEvent() async {
-    Map<String,dynamic> newEvent = {
+    Map<String, dynamic> newEvent = {
       "title": _title.text,
       "description": _description.text,
       "eventDate": _eventDate,
@@ -109,16 +106,17 @@ class _AddEventPageController extends State<AddEventPage> {
   }
 
   Future updateEvent() async {
-     await eventDBS.updateData(widget.note.id,{
+    await eventDBS.updateData(widget.note.id, {
       "title": _title.text,
       "description": _description.text,
       "event_date": widget.note.eventDate,
-       "user_id": widget.calendarId
+      "user_id": widget.calendarId
     });
   }
 }
 
-class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController> {
+class _AddEventPageView
+    extends WidgetView<AddEventPage, _AddEventPageController> {
   _AddEventPageView(_AddEventPageController state) : super(state);
 
   @override
@@ -139,7 +137,7 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
               const SizedBox(height: 10.0),
               _buildDateChooser(context),
               const SizedBox(height: 10.0),
-            //  _buildNotificationButton(context),
+              //  _buildNotificationButton(context),
               state.processing
                   ? Center(child: CircularProgressIndicator())
                   : _buildSaveButton(context),
@@ -150,26 +148,24 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
     );
   }
 
-  Widget _buildTitleBox(BuildContext context)
-  {
+  Widget _buildTitleBox(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: state._title,
-        validator: (value) =>
-        (value.isEmpty) ? "enterName".tr() : null,
+        validator: (value) => (value.isEmpty) ? "enterName".tr() : null,
         style: state.style,
         decoration: InputDecoration(
             labelText: "eventName".tr(),
             filled: true,
             fillColor: Colors.white,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
   }
 
-  Widget _buildContentBox(BuildContext context)
-  {
+  Widget _buildContentBox(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
@@ -177,41 +173,42 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
         minLines: 3,
         maxLines: 5,
         validator: (value) =>
-        (value.isEmpty) ? "enterEventDescription".tr() : null,
+            (value.isEmpty) ? "enterEventDescription".tr() : null,
         style: state.style,
         decoration: InputDecoration(
             labelText: "eventDescription".tr(),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
   }
 
-  Widget _buildDateChooser(BuildContext context)
-  {
+  Widget _buildDateChooser(BuildContext context) {
     return ListTile(
       title: Text("date".tr() + "(YYYY-MM-DD)"),
-      subtitle: Text("${state._eventDate.year} - ${state._eventDate.month} - ${state._eventDate.day} ${state._eventDate.hour}: ${state._eventDate.minute}"),
-      onTap:() {
+      subtitle: Text(
+          "${state._eventDate.year} - ${state._eventDate.month} - ${state._eventDate.day} ${state._eventDate.hour}: ${state._eventDate.minute}"),
+      onTap: () {
         state.handleDatePicker();
       },
     );
   }
 
-  Widget _buildSaveButton(BuildContext context){
+  Widget _buildSaveButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Material(
         child: RaisedButton(
-          onPressed: () {state.handleButtonPressed();},
-          child: Text(
-            "save".tr()
-          ),
+          onPressed: () {
+            state.handleButtonPressed();
+          },
+          child: Text("save".tr()),
         ),
       ),
     );
   }
 
- /* Widget _buildNotificationButton(BuildContext context){
+/* Widget _buildNotificationButton(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child:  Container(
@@ -228,5 +225,3 @@ class _AddEventPageView extends WidgetView<AddEventPage, _AddEventPageController
     ),);
   } */
 }
-
-

@@ -1,5 +1,5 @@
 //implementation was taken from project found on https://github.com/lohanidamodar/flutter_calendar
-import 'package:firebase_helpers/firebase_helpers.dart';
+
 
 class EventModel {
   final String id;
@@ -7,17 +7,16 @@ class EventModel {
   final String description;
   final DateTime eventDate;
 
-  EventModel({this.id,this.title, this.description, this.eventDate});
+  EventModel({this.id, this.title, this.description, this.eventDate});
 
   factory EventModel.fromMap(Map data) {
     return EventModel(
-      title: data['title'],
-      description: data['description'],
-        eventDate: data['eventDate']?.toDate()
-    );
+        title: data['title'],
+        description: data['description'],
+        eventDate: data['eventDate']?.toDate());
   }
 
-  factory EventModel.fromDS(String id, Map<String,dynamic> data) {
+  factory EventModel.fromDS(String id, Map<String, dynamic> data) {
     return EventModel(
       id: id,
       title: data['title'],
@@ -26,12 +25,12 @@ class EventModel {
     );
   }
 
-  Map<String,dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      "title":title,
+      "title": title,
       "description": description,
-      "eventDate":eventDate,
-      "id":id,
+      "eventDate": eventDate,
+      "id": id,
     };
   }
 }
